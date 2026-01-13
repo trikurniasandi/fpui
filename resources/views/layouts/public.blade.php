@@ -69,7 +69,7 @@
                 </a>
 
                 @auth
-                    <a href="{{ route('dashboard') }}"
+                    <a href="{{ route('admin.dashboard') }}"
                         class="ml-4 text-emerald-700 font-semibold hover:text-emerald-800 transition">
                         Dashboard
                     </a>
@@ -91,7 +91,7 @@
                 <a href="{{ route('public.about') }}" class="hover:text-emerald-700">Tentang</a>
 
                 @auth
-                    <a href="{{ route('dashboard') }}" class="pt-2 text-emerald-700 font-semibold">Dashboard</a>
+                    <a href="{{ route('admin.dashboard') }}" class="pt-2 text-emerald-700 font-semibold">Dashboard</a>
                 @else
                     <a href="{{ route('login') }}"
                     class="mt-2 inline-flex justify-center rounded-md bg-emerald-600 px-4 py-2 text-white">

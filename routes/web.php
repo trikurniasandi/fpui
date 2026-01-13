@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminArticleController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminNewsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Public\ArticleController;
 use App\Http\Controllers\Public\NewsController;
@@ -30,17 +32,39 @@ Route::prefix('article')->group(function () {
     Route::get('/{slug}', [ArticleController::class, 'show'])->name('article.show');
 });
 
-Route::prefix('news')->group(function (){
+Route::prefix('news')->group(function () {
     Route::get('/', [NewsController::class, 'index'])->name('news.index');
     Route::get('/{slug}', [NewsController::class, 'show'])->name('news.show');
 });
 
-Route::middleware(['auth', 'verified', 'admin'])->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
+Route::middleware(['auth', 'verified', 'admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
 
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::prefix('article')->group(function () {
+        Route::get('/', [AdminArticleController::class, 'index'])->name('article.index');
+        Route::get('/create', [AdminArticleController::class, 'create'])->name('article.create');
+        Route::post('/', [AdminArticleController::class, 'store'])->name('article.store');
+        Route::get('/{id}/edit', [AdminArticleController::class, 'edit'])->name('article.edit');
+        Route::put('/{id}', [AdminArticleController::class, 'update'])->name('article.update');
+        Route::delete('/{id}', [AdminArticleController::class, 'destroy'])->name('article.destroy');
+    });
+
+    Route::prefix('news')->group(function () {
+        Route::get('/', [AdminNewsController::class, 'index'])->name('news.index');
+        Route::get('/create', [AdminNewsController::class, 'create'])->name('news.create');
+        Route::post('/', [AdminNewsController::class, 'store'])->name('news.store');
+        Route::get('/{id}/edit', [AdminNewsController::class, 'edit'])->name('news.edit');
+        Route::put('/{id}', [AdminNewsController::class, 'update'])->name('news.update');
+        Route::delete('/{id}', [AdminNewsController::class, 'destroy'])->name('news.destroy');
+    });
 });
 
-require __DIR__.'/auth.php';
+
+require __DIR__ . '/auth.php';
