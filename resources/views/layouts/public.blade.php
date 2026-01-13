@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,14 +11,28 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+
 <body class="bg-gray-50 text-gray-900 antialiased">
 
     <header class="bg-white border-b sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
-            <a href="{{ route('home') }}" class="text-xl font-bold text-gray-900">
-                FPUI
+            <a href="{{ route('home') }}" class="flex items-center gap-2 group select-none">
+                <span
+                    class="text-3xl sm:text-4xl font-extrabold uppercase tracking-widest text-gray-900 group-hover:text-emerald-700 transition drop-shadow-sm">
+                    FPUI
+                </span>
+
+                <div class="hidden sm:block leading-tight mt-[2px]">
+                    <div class="text-xs text-gray-500 group-hover:text-emerald-600 transition">
+                        Forum Perpustakaan
+                    </div>
+                    <div class="text-xs text-gray-500 group-hover:text-emerald-600 transition">
+                        Umum Indonesia
+                    </div>
+                </div>
             </a>
+
 
             <nav class="flex items-center gap-6 text-sm font-medium text-gray-700">
                 <a href="{{ route('home') }}" class="hover:text-gray-900">Home</a>
@@ -46,4 +61,5 @@
     </footer>
 
 </body>
+
 </html>
