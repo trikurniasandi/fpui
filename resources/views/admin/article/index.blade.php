@@ -23,6 +23,12 @@
                         shadow-sm rounded-lg
                         border border-gray-200 dark:border-gray-700
                         overflow-hidden">
+                
+                <div class="px-4 sm:px-6 py-4
+                            border-b border-gray-200 dark:border-gray-700
+                            bg-gray-50 dark:bg-gray-800">
+                    <x-filter-bar :categories="$categories" />
+                </div>
 
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700
@@ -71,7 +77,7 @@
                                         </div>
                                     </td>
 
-                                    <td class="px-4 sm:px-6 py-4">
+                                    <td class="px-4 sm:px-6 py-4 text-gray-600 dark:text-gray-300">
                                         {{ $article->category?->name  ?? '-'}}
                                     </td>
 

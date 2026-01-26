@@ -14,14 +14,30 @@ use Illuminate\Support\Facades\Log;
 
 class AdminArticleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $articles = Publication::with(['author:id,name'])
+        $articles = Publication::with(['author:id,name', 'category:id,name'])
             ->where('type', 'article')
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
 
-        return view('admin.article.index', compact('articles'));
+            ->when($request->q, function ($query) use ($request) {
+                $query->where('title', 'like', '%' . $request->q . '%');
+            })
+
+            ->when($request->category, function ($query) use ($request) {
+                $query->where('category_id', $request->category);
+            })
+
+            ->when($request->status, function ($query) use ($request) {
+                $query->where('status', $request->status);
+            })
+
+            ->orderBy('created_at', 'desc')
+            ->paginate(10)
+            ->appends($request->query());
+
+        $categories = Category::orderBy('name')->get();
+
+        return view('admin.article.index', compact('articles', 'categories'));
     }
 
     public function create()
