@@ -74,7 +74,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
            @foreach($publications as $pub)
-                <article class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition">
+                <publication class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition">
                     <span class="inline-block mb-3 text-xs font-semibold px-3 py-1 rounded-full
                         {{ $pub->type === 'news' ? 'bg-blue-100 text-blue-700' : 'bg-emerald-100 text-emerald-700' }}">
                         {{ ucfirst($pub->type) }}
@@ -95,9 +95,16 @@
 
                     <div class="flex justify-between text-xs text-gray-500">
                         <span>{{ $pub->created_at->format('d M Y') }}</span>
-                        <span class="font-medium text-emerald-600">Baca →</span>
+
+                        <a href="{{ $pub->type === 'news' 
+                                    ? route('news.show', $pub->slug) 
+                                    : route('article.show', $pub->slug) }}"
+                            class="font-medium text-emerald-600 hover:text-emerald-700">
+                            Baca →
+                        </a>
                     </div>
-                </article>
+
+                </publication>
             @endforeach
 
         </div>
