@@ -36,6 +36,9 @@
                                     Judul
                                 </th>
                                 <th class="px-4 sm:px-6 py-3 text-left font-semibold text-gray-600 dark:text-gray-200">
+                                    Kategori
+                                </th>
+                                <th class="px-4 sm:px-6 py-3 text-left font-semibold text-gray-600 dark:text-gray-200">
                                     Author
                                 </th>
                                 <th class="px-4 sm:px-6 py-3 text-left font-semibold text-gray-600 dark:text-gray-200">
@@ -44,7 +47,7 @@
                                 <th class="px-4 sm:px-6 py-3 text-left font-semibold text-gray-600 dark:text-gray-200">
                                     Tanggal
                                 </th>
-                                <th class="px-4 sm:px-6 py-3 text-right font-semibold text-gray-600 dark:text-gray-200">
+                                <th class="px-4 sm:px-6 py-3 text-center font-semibold text-gray-600 dark:text-gray-200">
                                     Aksi
                                 </th>
                             </tr>
@@ -68,6 +71,10 @@
                                         </div>
                                     </td>
 
+                                    <td class="px-4 sm:px-6 py-4">
+                                        {{ $article->category?->name  ?? '-'}}
+                                    </td>
+
                                     <td class="px-4 sm:px-6 py-4 text-gray-600 dark:text-gray-300">
                                         {{ $article->author->name ?? '-' }}
                                     </td>
@@ -86,7 +93,7 @@
                                         {{ $article->created_at->format('d M Y') }}
                                     </td>
 
-                                    <td class="px-4 sm:px-6 py-4 text-right">
+                                    <td class="px-4 sm:px-6 py-4 text-center">
                                         <div class="inline-flex flex-wrap gap-2 justify-end">
                                             <a href="{{ route('admin.article.edit', $article->id) }}"
                                                class="inline-flex px-3 py-1.5 bg-blue-500 text-white
@@ -107,7 +114,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6"
+                                    <td colspan="7"
                                         class="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
                                         Belum ada artikel.
                                     </td>

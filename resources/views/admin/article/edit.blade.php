@@ -5,84 +5,191 @@
         </h2>
     </x-slot>
 
-    <div class="py-6">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="py-8">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            <form action="{{ route('admin.article.update', $article->id) }}" method="POST"
-                  class="bg-white dark:bg-gray-800
-                         border border-gray-200 dark:border-gray-700
-                         rounded-lg shadow-sm p-6 space-y-6">
+            <form action="{{ route('admin.article.update', $article->id) }}"
+                  method="POST"
+                  enctype="multipart/form-data"
+                  class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm p-6 space-y-8">
+
                 @csrf
                 @method('PUT')
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Judul Artikel
-                    </label>
-                    <input type="text"
-                           name="title"
-                           value="{{ old('title', $article->title) }}"
-                           required
-                           class="w-full rounded-lg border-gray-300 dark:border-gray-600
-                                  dark:bg-gray-900 dark:text-gray-100
-                                  focus:border-emerald-500 focus:ring-emerald-500">
-                    @error('title')
-                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
+                <div class="space-y-6">
+                    <h3 class="text-sm font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wide">
+                        Informasi Artikel
+                    </h3>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Konten Artikel
-                    </label>
-                    <textarea name="content"
-                              rows="8"
-                              required
-                              class="w-full rounded-lg border-gray-300 dark:border-gray-600
-                                     dark:bg-gray-900 dark:text-gray-100
-                                     focus:border-emerald-500 focus:ring-emerald-500">{{ old('content', $article->content) }}</textarea>
-                    @error('content')
-                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Status
+                        <label class="block text-sm font-medium mb-1">
+                            Judul Artikel <span class="text-red-500">*</span>
                         </label>
-                        <select name="status"
-                                class="w-full rounded-lg border-gray-300 dark:border-gray-600
-                                       dark:bg-gray-900 dark:text-gray-100
-                                       focus:border-emerald-500 focus:ring-emerald-500">
-                            <option value="draft" {{ old('status', $article->status) === 'draft' ? 'selected' : '' }}>
-                                Draft
-                            </option>
-                            <option value="published" {{ old('status', $article->status) === 'published' ? 'selected' : '' }}>
-                                Published
-                            </option>
-                        </select>
-                        @error('status')
+                        <input type="text"
+                               name="title"
+                               value="{{ old('title', $article->title) }}"
+                               required
+                               class="w-full rounded-lg border-gray-300 dark:border-gray-600
+                                      dark:bg-gray-900 dark:text-gray-100
+                                      focus:border-emerald-500 focus:ring-emerald-500">
+
+                        @error('title')
+                            <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-1">
+                            Konten Artikel <span class="text-red-500">*</span>
+                        </label>
+
+                        <x-ckeditor
+                            name="content"
+                            id="editor"
+                            :value="old('content', $article->content)" />
+
+                        @error('content')
                             <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
 
-                <div class="flex flex-col sm:flex-row gap-3 justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div class="space-y-6">
+                    <h3 class="text-sm font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wide">
+                        Media
+                    </h3>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">
+                                Foto Artikel
+                            </label>
+
+                            @if ($article->thumbnail)
+                                <div class="mb-3">
+                                    <img src="{{ asset('storage/' . $article->thumbnail) }}"
+                                         alt="Thumbnail"
+                                         class="h-32 rounded-lg border">
+                                    <p class="mt-1 text-xs text-gray-500">
+                                        Foto saat ini
+                                    </p>
+                                </div>
+                            @endif
+
+                            <input type="file"
+                                   name="thumbnail"
+                                   accept="image/*"
+                                   class="block w-full text-sm
+                                          file:mr-4 file:py-2 file:px-4
+                                          file:rounded-lg file:border-0
+                                          file:bg-emerald-600 file:text-white
+                                          hover:file:bg-emerald-700">
+
+                            <p class="mt-1 text-xs text-gray-500">
+                                JPG, PNG, WEBP — max 2MB (kosongkan jika tidak diganti)
+                            </p>
+
+                            @error('thumbnail')
+                                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium mb-1">
+                                Lampiran
+                            </label>
+
+                            @if ($article->attachment)
+                                <div class="mb-3">
+                                    <a href="{{ asset('storage/' . $article->attachment) }}"
+                                       target="_blank"
+                                       class="text-sm text-emerald-600 hover:underline">
+                                        Lihat lampiran saat ini
+                                    </a>
+                                </div>
+                            @endif
+
+                            <input type="file"
+                                   name="attachment"
+                                   class="block w-full text-sm
+                                          file:mr-4 file:py-2 file:px-4
+                                          file:rounded-lg file:border-0
+                                          file:bg-gray-200 file:text-gray-700
+                                          hover:file:bg-gray-300
+                                          dark:file:bg-gray-700 dark:file:text-gray-200">
+
+                            <p class="mt-1 text-xs text-gray-500">
+                                PDF, DOCX, XLSX — max 5MB (opsional)
+                            </p>
+
+                            @error('attachment')
+                                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <h3 class="text-sm font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wide">
+                        Pengaturan
+                    </h3>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">
+                                Kategori <span class="text-red-500">*</span>
+                            </label>
+
+                            <select name="category_id"
+                                    required
+                                    class="w-full rounded-lg border-gray-300 dark:border-gray-600
+                                           dark:bg-gray-900 dark:text-gray-100
+                                           focus:border-emerald-500 focus:ring-emerald-500">
+                                <option value="">Pilih Kategori</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}"
+                                        {{ old('category_id', $article->category_id) == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            @error('category_id')
+                                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium mb-1">
+                                Status <span class="text-red-500">*</span>
+                            </label>
+
+                            <select name="status"
+                                    class="w-full rounded-lg border-gray-300 dark:border-gray-600
+                                           dark:bg-gray-900 dark:text-gray-100
+                                           focus:border-emerald-500 focus:ring-emerald-500">
+                                <option value="draft"
+                                    {{ old('status', $article->status) === 'draft' ? 'selected' : '' }}>
+                                    Draft
+                                </option>
+                                <option value="published"
+                                    {{ old('status', $article->status) === 'published' ? 'selected' : '' }}>
+                                    Published
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-3 pt-6 border-t dark:border-gray-700">
                     <a href="{{ route('admin.article.index') }}"
-                       class="inline-flex justify-center px-4 py-2
-                              border border-gray-300 dark:border-gray-600
-                              rounded-lg text-sm font-medium
-                              text-gray-700 dark:text-gray-200
-                              hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                       class="px-4 py-2 rounded-lg border text-sm hover:bg-gray-100 dark:hover:bg-gray-700">
                         Batal
                     </a>
 
                     <button type="submit"
-                            class="inline-flex justify-center px-6 py-2
-                                   bg-emerald-600 text-white text-sm font-semibold
-                                   rounded-lg hover:bg-emerald-700 transition">
-                        Perbarui Artikel
+                            class="px-6 py-2 rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-700">
+                        Update Artikel
                     </button>
                 </div>
 

@@ -17,11 +17,19 @@ class Publication extends Model
         'content',
         'type',
         'status',
-        'user_id'
+        'user_id',
+        'category_id',
+        'thumbnail',
+        'attachment'
     ];
 
     public function author()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }
