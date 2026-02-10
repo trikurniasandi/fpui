@@ -53,7 +53,7 @@
 
             <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
                 <a href="{{ route('home') }}" class="relative text-gray-700 hover:text-emerald-700 transition">
-                    Home
+                    Beranda
                 </a>
 
                 <a href="{{ route('article.index') }}" class="relative text-gray-700 hover:text-emerald-700 transition">

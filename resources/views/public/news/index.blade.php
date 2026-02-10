@@ -1,50 +1,108 @@
 @extends('layouts.public')
 
-@section('title', 'Berita Perpustakaan')
+@section('title', 'Berita')
 
-@section('meta_description', 'Kumpulan berita terbaru terkait perpustakaan umum di Indonesia.')
+@section('meta_description', 'Berita terkini seputar literasi, perpustakaan, dan layanan informasi publik.')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-6 py-10 space-y-8">
+    <div class="max-w-7xl mx-auto px-6 py-14 space-y-12">
 
-    <h1 class="text-3xl font-bold text-gray-900 mb-6">
-        Berita Terbaru
-    </h1>
+        <section>
+            <div class="bg-white border border-gray-200 rounded-3xl p-10 shadow-sm">
+                <h1 class="text-3xl font-bold text-gray-900 mb-4">
+                    Berita
+                </h1>
 
-    @if($news->isEmpty())
-        <div class="rounded-xl bg-gray-50 border border-gray-200 p-6 text-center text-gray-500">
-            Belum ada berita tersedia.
-        </div>
-    @else
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach($news as $item)
-                <article class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition">
-                    <span class="inline-block mb-3 text-xs font-semibold px-3 py-1 rounded-full bg-blue-100 text-blue-700">
-                        Berita
-                    </span>
+                <p class="text-gray-600 max-w-6xl leading-relaxed">
+                    Informasi dan berita terbaru terkait kegiatan, program,
+                    kebijakan, serta perkembangan di bidang perpustakaan,
+                    kearsipan, dan literasi masyarakat.
+                </p>
+            </div>
+        </section>
 
-                    <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
-                        <a href="{{ route('news.show', $item->slug) }}" class="hover:text-emerald-700">
-                            {{ $item->title }}
-                        </a>
-                    </h3>
+        <section>
+            @if($news->isEmpty())
+                <div class="rounded-2xl bg-gray-50 border border-gray-200 p-8 text-center text-gray-500">
+                    Belum ada berita yang dipublikasikan.
+                </div>
+            @else
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach($news as $item)
+                        <article
+                            class="group bg-white border border-gray-200 rounded-2xl overflow-hidden
+                                   shadow-sm hover:shadow-md hover:-translate-y-0.5
+                                   transition-all duration-300 flex flex-col">
 
-                    <p class="text-sm text-gray-600 mb-4 line-clamp-3">
-                        {{ Str::limit(strip_tags($item->content), 120) }}
-                    </p>
+                            <a href="{{ route('news.show', $item->slug) }}"
+                               class="relative block aspect-[16/9] overflow-hidden bg-gray-900">
 
-                    <div class="flex justify-between text-xs text-gray-500">
-                        <span>{{ $item->created_at->format('d M Y') }}</span>
-                        <a href="{{ route('news.show', $item->slug) }}" class="font-medium text-emerald-600">Baca →</a>
-                    </div>
-                </article>
-            @endforeach
-        </div>
+                                @if ($item->thumbnail)
+                                    <img src="{{ asset('storage/' . $item->thumbnail) }}"
+                                         alt=""
+                                         class="absolute inset-0 w-full h-full object-cover scale-110 blur-lg opacity-40"
+                                         aria-hidden="true">
 
-        <div class="mt-6">
-            {{ $news->links() }}
-        </div>
-    @endif
+                                    <div class="absolute inset-0 bg-black/30"></div>
 
-</div>
+                                    <img src="{{ asset('storage/' . $item->thumbnail) }}"
+                                         alt="{{ $item->title }}"
+                                         class="relative z-10 w-full h-full object-contain
+                                                transition-transform duration-300 group-hover:scale-105">
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center
+                                                text-gray-400 text-sm bg-gray-100">
+                                        Tidak ada gambar
+                                    </div>
+                                @endif
+                            </a>
+
+                            <div class="p-6 flex flex-col justify-between flex-1">
+                                <div>
+                                    <span
+                                        class="inline-flex mb-3 rounded-full
+                                               bg-blue-50 px-3 py-1
+                                               text-xs font-semibold text-blue-700">
+                                        {{ $item->category?->name ?? 'Berita' }}
+                                    </span>
+
+                                    <h2
+                                        class="text-[1.05rem] font-semibold text-gray-900 mb-2
+                                               line-clamp-2
+                                               group-hover:text-blue-700 transition">
+
+                                        <a href="{{ route('news.show', $item->slug) }}">
+                                            {{ $item->title }}
+                                        </a>
+                                    </h2>
+
+                                    <p class="text-sm text-gray-600 leading-relaxed line-clamp-3">
+                                        {{ Str::limit(strip_tags($item->content), 140) }}
+                                    </p>
+                                </div>
+
+                                <div class="mt-6 flex items-center justify-between text-sm text-gray-500">
+                                    <span>
+                                        {{ $item->created_at->translatedFormat('d F Y') }}
+                                    </span>
+
+                                    <a href="{{ route('news.show', $item->slug) }}"
+                                       class="text-blue-600 font-medium hover:text-blue-700">
+                                        Baca →
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
+            @endif
+        </section>
+
+        <section>
+            <div class="pt-8">
+                {{ $news->onEachSide(1)->links() }}
+            </div>
+        </section>
+
+    </div>
 @endsection
