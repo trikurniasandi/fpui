@@ -10,9 +10,10 @@ class PublicController extends Controller
 {
     public function index()
     {
-        $publications = Publication::where('status', 'published')
+        $publications = Publication::with(['category:id,name'])
+            ->where('status', 'published')
             ->latest()
-            ->paginate(10);
+            ->paginate(6);
 
         return view('public.home', compact('publications'));    
     }

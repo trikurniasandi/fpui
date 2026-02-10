@@ -62,29 +62,137 @@
     </section>
 
     <section>
+        <div class="grid md:grid-cols-2 gap-10 items-center">
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+                    Sekilas FPUI
+                </h2>
+                <p class="text-gray-700 leading-relaxed">
+                    Forum Perpustakaan Umum Indonesia (FPUI) merupakan wadah kolaborasi nasional
+                    untuk memperkuat peran perpustakaan umum dalam pembangunan literasi.
+                </p>
+            </div>
+
+            <div class="relative h-64 rounded-3xl overflow-hidden">
+                <img src="https://picsum.photos/800/600"
+                    class="absolute inset-0 w-full h-full object-cover">
+                <div class="absolute inset-0 bg-emerald-600/20"></div>
+            </div>
+        </div>
+    </section>
+
+   <section>
+    <h2 class="text-2xl font-semibold text-gray-900 mb-10">
+        Peran & Fungsi
+    </h2>
+
+    <div class="grid md:grid-cols-2 gap-12 items-start">
+        <div class="space-y-8">
+            @foreach([
+                ['01', 'Koordinasi', 'Menghubungkan perpustakaan umum dan pemangku kepentingan.'],
+                ['02', 'Fasilitasi', 'Mendukung pertukaran praktik baik dan inovasi layanan.'],
+                ['03', 'Advokasi', 'Mendorong kebijakan dan penguatan peran perpustakaan.'],
+            ] as [$no, $title, $desc])
+                <div class="flex gap-6 items-start">
+                    <div class="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center font-semibold">
+                        {{ $no }}
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 mb-1">
+                            {{ $title }}
+                        </h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            {{ $desc }}
+                        </p>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        <div class="bg-gray-50 border border-gray-200 rounded-3xl p-8">
+            <div class="grid grid-cols-2 gap-6 text-center">
+                <div>
+                    <p class="text-3xl font-bold text-emerald-600">30+</p>
+                    <p class="text-sm text-gray-600 mt-1">Perpustakaan Terlibat</p>
+                </div>
+                <div>
+                    <p class="text-3xl font-bold text-emerald-600">15+</p>
+                    <p class="text-sm text-gray-600 mt-1">Kegiatan Nasional</p>
+                </div>
+                <div>
+                    <p class="text-3xl font-bold text-emerald-600">10+</p>
+                    <p class="text-sm text-gray-600 mt-1">Wilayah Provinsi</p>
+                </div>
+                <div>
+                    <p class="text-3xl font-bold text-emerald-600">100+</p>
+                    <p class="text-sm text-gray-600 mt-1">Pustakawan Terlibat</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+
+    <section>
+        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r
+                    from-emerald-600 to-emerald-500 p-10 md:p-14 text-white">
+            <div class="max-w-3xl">
+                <span class="text-sm font-semibold uppercase tracking-wide opacity-90">
+                    Agenda & Kegiatan
+                </span>
+
+                <h2 class="text-3xl font-semibold mt-3 mb-4">
+                    Kegiatan Nasional & Kolaboratif
+                </h2>
+
+                <p class="text-emerald-50 leading-relaxed mb-6">
+                    FPUI secara rutin menyelenggarakan forum diskusi, webinar literasi,
+                    dan kegiatan kolaboratif lintas daerah.
+                </p>
+
+                <a href="#"
+                class="inline-flex items-center gap-2 px-6 py-3
+                        bg-white text-emerald-700 font-semibold rounded-xl
+                        hover:bg-emerald-50 transition">
+                    Lihat Agenda
+                    <span>→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    @if($publications->isEmpty())
+        <div class="rounded-2xl border border-gray-200 bg-gray-50 p-8 text-center text-gray-500">
+            Belum ada publikasi yang tersedia.
+        </div>
+    @else
+
+    <section id="publikasi-terbaru" aria-labelledby="heading-publikasi">
         <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-semibold text-gray-900">
+            <h2 id="heading-publikasi" class="text-2xl font-semibold text-gray-900">
                 Publikasi Terbaru
             </h2>
-            <a href="{{ route('article.index') }}"
-               class="text-sm font-medium text-emerald-600 hover:text-emerald-700">
-                Lihat semua →
-            </a>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-           @foreach($publications as $pub)
-                <publication class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition">
-                    <span class="inline-block mb-3 text-xs font-semibold px-3 py-1 rounded-full
-                        {{ $pub->type === 'news' ? 'bg-blue-100 text-blue-700' : 'bg-emerald-100 text-emerald-700' }}">
-                        {{ ucfirst($pub->type) }}
+            @foreach($publications as $pub)
+                <article
+                    class="group bg-white rounded-2xl border border-gray-200 p-6
+                        shadow-sm hover:shadow-lg hover:-translate-y-1
+                        transition-all duration-300 flex flex-col">
+
+                    <span class="inline-block items-center gap-1 mb-3 text-xs font-semibold px-3 py-1 rounded-full
+                        {{ $pub->type === 'news'
+                            ? 'bg-blue-50 text-blue-700'
+                            : 'bg-emerald-50 text-emerald-700' }}">
+                        {{ $pub->type === 'news' ? 'Berita' : 'Artikel' }}
                     </span>
 
-                    <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
-                        <a href="{{ $pub->type === 'news' 
-                                    ? route('news.show', $pub->slug) 
-                                    : route('article.show', $pub->slug) }}" 
-                        class="hover:text-emerald-700">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2
+                            group-hover:text-emerald-700 transition-colors">
+                        <a href="{{ $pub->type === 'news'
+                                    ? route('news.show', $pub->slug)
+                                    : route('article.show', $pub->slug) }}">
                             {{ $pub->title }}
                         </a>
                     </h3>
@@ -93,23 +201,28 @@
                         {{ Str::limit(strip_tags($pub->content), 120) }}
                     </p>
 
-                    <div class="flex justify-between text-xs text-gray-500">
-                        <span>{{ $pub->created_at->format('d M Y') }}</span>
+                    <div class="mt-auto pt-4 flex items-center justify-between text-xs text-gray-500 border-t border-gray-100">
+                        <span>{{ $pub->created_at->translatedFormat('d F Y') }}</span>
 
-                        <a href="{{ $pub->type === 'news' 
-                                    ? route('news.show', $pub->slug) 
+                        <a href="{{ $pub->type === 'news'
+                                    ? route('news.show', $pub->slug)
                                     : route('article.show', $pub->slug) }}"
-                            class="font-medium text-emerald-600 hover:text-emerald-700">
-                            Baca →
+                        class="inline-flex items-center gap-1 font-medium text-emerald-600 hover:text-emerald-700">
+                            Baca
+                            <span class="transition group-hover:translate-x-1">→</span>
                         </a>
                     </div>
 
-                </publication>
+                </article>
             @endforeach
+        </div>
 
+        <div class="mt-10">
+            {{ $publications->onEachSide(1)->fragment('publikasi-terbaru')->links() }} 
         </div>
     </section>
-
+    @endif
+    
     <section>
         <div class="bg-gray-900 rounded-3xl p-10 md:p-14 text-white flex flex-col md:flex-row items-center justify-between gap-8">
             <div class="max-w-2xl">
@@ -128,6 +241,5 @@
             </a>
         </div>
     </section>
-
 </div>
 @endsection
