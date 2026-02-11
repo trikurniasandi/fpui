@@ -20,7 +20,9 @@ class Publication extends Model
         'user_id',
         'category_id',
         'thumbnail',
-        'attachment'
+        'attachment',
+        'show_on_banner',
+        'expired_at',
     ];
 
     public function author()

@@ -17,7 +17,12 @@ return new class extends Migration {
             $table->string('slug')->unique();
             $table->text('content');
             $table->enum('type', ['article', 'news'])->default('article');
+            $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
             $table->enum('status', ['draft', 'published'])->default('draft');
+            $table->string('thumbnail')->nullable();
+            $table->string('attachment')->nullable();
+            $table->boolean('show_on_banner')->default(false);
+            $table->dateTime('expired_at')->nullable();
             $table->timestamps();
         });
     }

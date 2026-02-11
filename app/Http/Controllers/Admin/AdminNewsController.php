@@ -55,7 +55,12 @@ class AdminNewsController extends Controller
             'status' => 'required|in:draft,published',
             'category_id' => 'required|exists:categories,id',
             'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'attachment' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx|max:5120'
+            'attachment' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx|max:5120',
+            'expired_at' => 'nullable|date|after:now',
+        ]);
+
+        $request->merge([
+            'show_on_banner' => $request->has('show_on_banner'),
         ]);
 
         DB::beginTransaction();
@@ -89,6 +94,8 @@ class AdminNewsController extends Controller
                 'attachment' => $attachmentPath,
                 'type' => 'news',
                 'user_id' => Auth::id(),
+                'show_on_banner' => $request->show_on_banner,
+                'expired_at' => $request->show_on_banner ? $request->expired_at : null,
             ]);
 
             DB::commit();
@@ -122,6 +129,11 @@ class AdminNewsController extends Controller
             'category_id' => 'required|exists:categories,id',
             'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'attachment' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx|max:5120',
+            'expired_at' => 'nullable|date|after:now',
+        ]);
+
+        $request->merge([
+            'show_on_banner' => $request->has('show_on_banner'),
         ]);
 
         DB::beginTransaction();
@@ -165,6 +177,8 @@ class AdminNewsController extends Controller
                 'category_id' => $validated['category_id'],
                 'thumbnail' => $thumbnailPath,
                 'attachment' => $attachmentPath,
+                'show_on_banner' => $request->show_on_banner,
+                'expired_at' => $request->show_on_banner ? $request->expired_at : null,
             ]);
 
             DB::commit();

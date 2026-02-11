@@ -77,7 +77,7 @@
                                     </h2>
 
                                     <p class="text-sm text-gray-600 leading-relaxed line-clamp-3">
-                                        {{ Str::limit(strip_tags($item->content), 140) }}
+                                        {{ Str::limit(html_entity_decode(strip_tags($item->content)), 140) }}
                                     </p>
                                 </div>
 

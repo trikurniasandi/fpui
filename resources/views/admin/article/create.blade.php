@@ -124,6 +124,36 @@
                             </select>
                         </div>
                     </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox"
+                                id="show_on_banner"
+                                name="show_on_banner"
+                                value="1"
+                                {{ old('show_on_banner') ? 'checked' : '' }}
+                                class="rounded border-gray-300 text-emerald-600
+                                        focus:ring-emerald-500">
+                            <label for="show_on_banner" class="text-sm font-medium">
+                                Tampilkan di Banner Beranda
+                            </label>
+                        </div>
+
+                        <div id="expiredAtWrapper" class="hidden">
+                            <label class="block text-sm font-medium mb-1">
+                                Banner Berakhir Pada
+                            </label>
+                            <input type="datetime-local"
+                                name="expired_at"
+                                value="{{ old('expired_at') }}"
+                                class="w-full rounded-lg border-gray-300 dark:border-gray-600
+                                        dark:bg-gray-900 dark:text-gray-100
+                                        focus:border-emerald-500 focus:ring-emerald-500">
+                            <p class="mt-1 text-xs text-gray-500">
+                                Kosongkan jika banner tidak memiliki batas waktu
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="flex justify-end gap-3 pt-6 border-t dark:border-gray-700">
@@ -142,3 +172,22 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkbox = document.getElementById('show_on_banner');
+        const expiredWrapper = document.getElementById('expiredAtWrapper');
+
+        function toggleExpired() {
+            if (checkbox.checked) {
+                expiredWrapper.classList.remove('hidden');
+            } else {
+                expiredWrapper.classList.add('hidden');
+            }
+        }
+
+        toggleExpired();
+
+        checkbox.addEventListener('change', toggleExpired);
+    });
+</script>

@@ -51,6 +51,9 @@
                                     Status
                                 </th>
                                 <th class="px-4 sm:px-6 py-3 text-left font-semibold text-gray-600 dark:text-gray-200">
+                                    Banner
+                                </th>
+                                <th class="px-4 sm:px-6 py-3 text-left font-semibold text-gray-600 dark:text-gray-200">
                                     Hari/Tanggal
                                 </th>
                                 <th class="px-4 sm:px-6 py-3 text-center font-semibold text-gray-600 dark:text-gray-200">
@@ -92,6 +95,16 @@
                                                 ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300'
                                                 : 'bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-200' }}">
                                             {{ ucfirst($item->status) }}
+                                        </span>
+                                    </td>
+                                    
+                                    <td class="px-4 sm:px-6 py-4">
+                                        <span class="inline-flex px-2 py-1 rounded-full
+                                        text-[11px] sm:text-xs font-semibold
+                                        {{ $item->show_on_banner
+                                                ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300'
+                                                : 'bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-200' }}">
+                                            {{ $item->show_on_banner ? 'Yes' : 'No' }}
                                         </span>
                                     </td>
 

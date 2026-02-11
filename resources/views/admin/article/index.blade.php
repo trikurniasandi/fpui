@@ -51,6 +51,9 @@
                                     Status
                                 </th>
                                 <th class="px-4 sm:px-6 py-3 text-left font-semibold text-gray-600 dark:text-gray-200">
+                                    Banner
+                                </th>
+                                <th class="px-4 sm:px-6 py-3 text-left font-semibold text-gray-600 dark:text-gray-200">
                                     Hari/Tanggal
                                 </th>
                                 <th class="px-4 sm:px-6 py-3 text-center font-semibold text-gray-600 dark:text-gray-200">
@@ -94,11 +97,21 @@
                                             {{ ucfirst($article->status) }}
                                         </span>
                                     </td>
+    
+                                    <td class="px-4 sm:px-6 py-4">
+                                        <span class="inline-flex px-2 py-1 rounded-full
+                                        text-[11px] sm:text-xs font-semibold
+                                        {{ $article->show_on_banner
+                                                ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300'
+                                                : 'bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-200' }}">
+                                            {{ $article->show_on_banner ? 'Yes' : 'No' }}
+                                        </span>
+                                    </td>
 
                                     <td class="px-4 sm:px-6 py-4 text-gray-600 dark:text-gray-300 whitespace-nowrap">
                                         {{ $article->created_at->translatedFormat('l, d F Y') }}
                                     </td>
-
+                                    
                                     <td class="px-4 sm:px-6 py-4 text-center">
                                         <div class="inline-flex flex-wrap gap-2 justify-end">
                                             <a href="{{ route('admin.article.edit', $article->id) }}"

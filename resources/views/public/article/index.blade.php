@@ -63,7 +63,7 @@
 
 
                                     <h2 class="text-[1.05rem] font-semibold text-gray-900 mb-2 line-clamp-2
-                                                                                       group-hover:text-emerald-700 transition">
+                                                group-hover:text-emerald-700 transition">
 
                                         <a href="{{ route('article.show', $article->slug) }}">
                                             {{ $article->title }}
@@ -71,7 +71,7 @@
                                     </h2>
 
                                     <p class="text-sm text-gray-600 leading-relaxed line-clamp-3">
-                                        {{ Str::limit(strip_tags($article->content), 140) }}
+                                        {{ Str::limit(html_entity_decode(strip_tags($article->content)), 140) }}
                                     </p>
                                 </div>
 

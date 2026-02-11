@@ -5,42 +5,126 @@
 @section('meta_description', 'Forum Perpustakaan Umum Indonesia (FPUI) merupakan wadah kolaborasi, informasi, dan pengembangan perpustakaan umum di seluruh Indonesia.')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-6 py-14 space-y-16">
+<div class="max-w-7xl mx-auto px-6 py-16 space-y-24">
+    
+    @if($banner->isNotEmpty())
+        <section 
+            x-data="{
+                active: 0,
+                total: {{ $banner->count() }},
+                next() { this.active = (this.active + 1) % this.total },
+                prev() { this.active = (this.active - 1 + this.total) % this.total }
+            }"
+            x-init="setInterval(() => next(), 6000)"
+            class="relative"
+        >
+            <div class="relative overflow-hidden rounded-3xl h-[520px] shadow-xl">
 
-    <section>
-        <div class="relative overflow-hidden rounded-3xl">
+                @foreach($banner as $index => $item)
+                <div x-show="active === {{ $index }}"
+                    x-transition.opacity.duration.700ms
+                    class="absolute inset-0">
+
+                    <img src="{{ $item->thumbnail 
+                                ? asset('storage/' . $item->thumbnail) 
+                                : 'https://picsum.photos/1600/600' }}"
+                        class="absolute inset-0 w-full h-full object-cover">
+
+                    <div class="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-gray-900/70 to-transparent"></div>
+
+                    <div class="relative z-10 h-full flex items-center px-20">
+                        <div class="max-w-2xl text-white space-y-6">
+
+                            <span class="inline-block text-sm font-semibold px-4 py-1.5 rounded-full
+                                    {{ $item->type === 'news'
+                                    ? 'bg-blue-100 text-blue-700'
+                                    : 'bg-emerald-100 text-emerald-700' }}">
+                                {{ $item->type === 'news' ? 'Berita' : 'Artikel' }}
+                            </span>
+
+                            <h1 class="text-4xl md:text-5xl font-bold leading-tight">
+                                {{ Str::limit(html_entity_decode(strip_tags($item->title)), 25) }}
+                            </h1>
+
+                            <p class="text-gray-200 text-lg leading-relaxed line-clamp-3">
+                                {{ Str::limit(html_entity_decode(strip_tags($item->content)), 200) }}
+                            </p>
+
+                            <a href="{{ $item->type === 'news'
+                                        ? route('news.show', $item->slug)
+                                        : route('article.show', $item->slug) }}"
+                               class="inline-flex items-center gap-2 px-6 py-3 font-semibold rounded-xl transition
+                                {{ $item->type === 'news'
+                                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                                    : 'bg-emerald-600 hover:bg-emerald-700 text-white' }}">
+                                Baca Selengkapnya →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+
+                <button @click="prev"
+                    class="absolute z-20 left-6 top-1/2 -translate-y-1/2 
+                        bg-white/20 hover:bg-white/40 text-white 
+                        w-11 h-11 rounded-full backdrop-blur 
+                        flex items-center justify-center">
+                    ‹
+                </button>
+
+                <button @click="next"
+                    class="absolute z-20 right-6 top-1/2 -translate-y-1/2 
+                        bg-white/20 hover:bg-white/40 text-white 
+                        w-11 h-11 rounded-full backdrop-blur 
+                        flex items-center justify-center">
+                    ›
+                </button>
+
+                <div class="absolute z-20 bottom-6 left-1/2 -translate-x-1/2 flex gap-3">
+                    @foreach($banner as $index => $item)
+                    <button @click="active = {{ $index }}"
+                        :class="active === {{ $index }} 
+                                ? 'bg-white w-6' 
+                                : 'bg-white/50 w-3'"
+                        class="h-3 rounded-full transition-all duration-300">
+                    </button>
+                    @endforeach
+                </div>
+
+            </div>
+        </section>
+    @else
+        <section class="relative overflow-hidden rounded-3xl h-[520px] shadow-xl">
             <img src="https://picsum.photos/1600/600"
-                 class="absolute inset-0 w-full h-full object-cover">
+                class="absolute inset-0 w-full h-full object-cover">
 
-            <div class="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-gray-900/60 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-gray-900/70 to-transparent"></div>
 
-            <div class="relative z-10 px-10 py-16 max-w-3xl text-white">
-                <span class="inline-block mb-4 text-sm font-semibold bg-emerald-600/90 px-4 py-1.5 rounded-full">
-                    Agenda Nasional
-                </span>
+            <div class="relative z-10 h-full flex items-center px-20">
+                <div class="max-w-2xl text-white space-y-6">
+                    <span class="inline-block text-sm font-semibold 
+                                bg-emerald-600 px-4 py-1.5 rounded-full">
+                        Selamat Datang
+                    </span>
 
-                <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-5">
-                    Forum Perpustakaan Umum Indonesia
-                </h1>
+                    <h1 class="text-4xl md:text-5xl font-bold leading-tight">
+                        Forum Perpustakaan Umum Indonesia
+                    </h1>
 
-                <p class="text-gray-200 text-lg mb-8">
-                    Wadah kolaborasi nasional untuk memperkuat peran perpustakaan umum
-                    sebagai pusat literasi, informasi, dan pemberdayaan masyarakat.
-                </p>
+                    <p class="text-gray-200 text-lg leading-relaxed">
+                        Wadah kolaborasi nasional untuk memperkuat peran perpustakaan umum di Indonesia.
+                    </p>
 
-                <div class="flex gap-4">
-                    <a href="{{ route('article.index') }}"
-                       class="px-6 py-3 bg-emerald-600 font-semibold rounded-xl hover:bg-emerald-700 transition">
-                        Artikel Literasi
-                    </a>
-                    <a href="{{ route('news.index') }}"
-                       class="px-6 py-3 bg-white/90 text-gray-900 font-semibold rounded-xl hover:bg-white transition">
-                        Berita Terkini
+                    <a href="{{ route('public.about') }}"
+                        class="inline-flex items-center gap-2 
+                            px-6 py-3 bg-emerald-600 font-semibold 
+                            rounded-xl hover:bg-emerald-700 transition">
+                        Pelajari Lebih Lanjut →
                     </a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
 
     <section>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
