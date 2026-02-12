@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminArticleController;
+use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminNewsController;
+use App\Http\Controllers\Admin\AdminOrganizationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Public\ArticleController;
 use App\Http\Controllers\Public\NewsController;
@@ -64,6 +66,29 @@ Route::middleware(['auth', 'verified', 'admin'])
         Route::put('/{id}', [AdminNewsController::class, 'update'])->name('news.update');
         Route::delete('/{id}', [AdminNewsController::class, 'destroy'])->name('news.destroy');
     });
+
+    Route::prefix('settings')
+    ->name('settings.')
+    ->group(function (){
+        Route::prefix('category')->group(function (){
+            Route::get('/', [AdminCategoryController::class, 'index'])->name('category.index');
+            Route::get('/create', [AdminCategoryController::class, 'create'])->name('category.create');
+            Route::post('/', [AdminCategoryController::class, 'store'])->name('category.store');
+            Route::get('/{id}/edit', [AdminCategoryController::class, 'edit'])->name('category.edit');
+            Route::put('/{id}', [AdminCategoryController::class, 'update'])->name('category.update');
+            Route::delete('/{id}', [AdminCategoryController::class, 'destroy'])->name('category.destroy');
+        });
+
+        Route::prefix('organization')->group(function (){
+            Route::get('/', [AdminOrganizationController::class, 'index'])->name('organization.index');
+            Route::get('/create', [AdminOrganizationController::class, 'create'])->name('organization.create');
+            Route::post('/', [AdminOrganizationController::class, 'store'])->name('organization.store');
+            Route::get('/{id}/edit', [AdminOrganizationController::class, 'edit'])->name('organization.edit');
+            Route::put('/{id}', [AdminOrganizationController::class, 'update'])->name('organization.update');
+            Route::delete('/{id}', [AdminOrganizationController::class, 'destroy'])->name('organization.destroy');
+        });
+    });
+
 });
 
 
