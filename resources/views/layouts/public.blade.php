@@ -14,7 +14,9 @@
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
     <style>
-        [x-cloak] { display: none !important; }
+        [x-cloak] {
+            display: none !important;
+        }
     </style>
 
 </head>
@@ -25,13 +27,17 @@
 
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
-            <a href="{{ route('home') }}" class="flex items-center gap-2 group select-none">
-                <span
-                    class="text-3xl sm:text-4xl font-extrabold uppercase tracking-widest text-gray-900 group-hover:text-emerald-700 transition drop-shadow-sm">
-                    FPUI
-                </span>
-
-                <div class="hidden sm:block leading-tight mt-[2px]">
+            <a href="{{ route('home') }}" class="flex items-center gap-3 group select-none">
+                @if($organization && $organization->logo)
+                    <img src="{{ asset('storage/' . $organization->logo) }}" alt="{{ $organization->name }}"
+                        class="h-10 sm:h-12 object-contain flex-shrink-0">
+                @else
+                    <span
+                        class="text-2xl sm:text-3xl font-extrabold uppercase tracking-widest text-gray-900 group-hover:text-emerald-700 transition drop-shadow-sm">
+                        FPUI
+                    </span>
+                @endif
+                <div class="hidden sm:flex flex-col leading-tight mt-[2px]">
                     <div class="text-xs text-gray-500 group-hover:text-emerald-600 transition">
                         Forum Perpustakaan
                     </div>
@@ -94,7 +100,7 @@
                     <a href="{{ route('admin.dashboard') }}" class="pt-2 text-emerald-700 font-semibold">Dashboard</a>
                 @else
                     <a href="{{ route('login') }}"
-                    class="mt-2 inline-flex justify-center rounded-md bg-emerald-600 px-4 py-2 text-white">
+                        class="mt-2 inline-flex justify-center rounded-md bg-emerald-600 px-4 py-2 text-white">
                         Login
                     </a>
                 @endauth

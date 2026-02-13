@@ -8,32 +8,26 @@
 
     <section class="text-center">
         <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Tentang Forum Perpustakaan Umum Indonesia
+            {{ $organization->name }}
         </h1>
         <p class="text-gray-600 text-lg max-w-3xl mx-auto">
-            FPUI merupakan wadah kolaborasi nasional untuk pengelola perpustakaan umum di seluruh Indonesia.
-            Tujuan utamanya adalah memperkuat literasi, layanan informasi, dan pemberdayaan masyarakat melalui
-            perpustakaan yang inklusif dan modern.
+          {{ $organization->description }}
         </p>
     </section>
 
     <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div class="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm hover:shadow-md transition">
             <h2 class="text-2xl font-semibold text-gray-900 mb-3">Visi</h2>
-            <p class="text-gray-600 text-sm leading-relaxed">
-                Menjadi forum terdepan yang mendukung pengembangan perpustakaan umum di seluruh Indonesia
-                untuk meningkatkan literasi dan pemberdayaan masyarakat.
-            </p>
+            <div class="prose max-w-none dark:prose-invert text-gray-600">
+                {!! $organization->vision !!}
+            </div>
         </div>
 
         <div class="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm hover:shadow-md transition">
             <h2 class="text-2xl font-semibold text-gray-900 mb-3">Misi</h2>
-            <ul class="list-disc list-inside text-gray-600 text-sm space-y-2 leading-relaxed">
-                <li>Membangun jejaring nasional antar perpustakaan umum.</li>
-                <li>Menyediakan sumber daya dan publikasi edukatif untuk pustakawan dan masyarakat.</li>
-                <li>Mendorong perpustakaan sebagai ruang inklusif dan inovatif.</li>
-                <li>Menjadi pusat informasi dan literasi bagi masyarakat Indonesia.</li>
-            </ul>
+            <div class="prose max-w-none dark:prose-invert text-gray-600">
+                {!! $organization->mission !!}
+            </div>
         </div>
     </section>
 

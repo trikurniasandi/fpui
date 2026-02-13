@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Models\OrganizationProfile;
 use App\Models\Publication;
 use Illuminate\Http\Request;
 
@@ -26,11 +27,15 @@ class PublicController extends Controller
             ->select('id', 'title', 'slug', 'type', 'content', 'created_at')
             ->paginate(6);
 
-        return view('public.home', compact('publications', 'banner'));    
+        $organization = OrganizationProfile::first();
+
+        return view('public.home', compact('publications', 'banner', 'organization'));    
     }
 
     public function about()
     {
-        return view('public.about');
+        $organization = OrganizationProfile::first();
+
+        return view('public.about', compact('organization'));
     }
 }

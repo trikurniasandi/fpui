@@ -7,6 +7,7 @@ use App\Models\OrganizationProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class AdminOrganizationController extends Controller
 {
@@ -62,7 +63,7 @@ class AdminOrganizationController extends Controller
 
             if ($request->hasFile('logo')) {
                 $validated['logo'] = $request->file('logo')
-                ->store('organization', 'public');
+                    ->store('organization', 'public');
             }
 
             OrganizationProfile::create($validated);
@@ -108,18 +109,24 @@ class AdminOrganizationController extends Controller
         DB::beginTransaction();
 
         try {
-
             if ($request->hasFile('logo')) {
+                if ($organization->logo && Storage::disk('public')->exists($organization->logo)) {
+                    Storage::disk('public')->delete($organization->logo);
+                }
+
                 $validated['logo'] = $request->file('logo')->store('organization', 'public');
             }
 
             $organization->update($validated);
             DB::commit();
-            return redirect()->route('admin.settings.organization.index') ->with('success', 'Profil organisasi berhasil diperbarui');
+
+            return redirect()->route('admin.settings.organization.index')
+                ->with('success', 'Profil organisasi berhasil diperbarui');
         } catch (\Throwable $e) {
             DB::rollBack();
             Log::error('Gagal memperbarui profil organisasi', ['error' => $e->getMessage()]);
             return back()->withInput()->with('error', 'Terjadi kesalahan saat memperbarui profil organisasi');
         }
     }
+
 }

@@ -151,15 +151,15 @@
                 <h2 class="text-2xl font-semibold text-gray-900 mb-4">
                     Sekilas FPUI
                 </h2>
-                <p class="text-gray-700 leading-relaxed">
-                    Forum Perpustakaan Umum Indonesia (FPUI) merupakan wadah kolaborasi nasional
-                    untuk memperkuat peran perpustakaan umum dalam pembangunan literasi.
-                </p>
+                <div class="text-gray-700 leading-relaxed">
+                    {!! $organization->description !!}
+                </div>
             </div>
 
             <div class="relative h-64 rounded-3xl overflow-hidden">
-                <img src="https://picsum.photos/800/600"
-                    class="absolute inset-0 w-full h-full object-cover">
+                <img src="{{ asset('assets/logo.png') }}"
+     class="absolute inset-0 w-full h-full object-contain">
+
                 <div class="absolute inset-0 bg-emerald-600/20"></div>
             </div>
         </div>
