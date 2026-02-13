@@ -83,9 +83,8 @@ Route::middleware(['auth', 'verified', 'admin'])
             Route::get('/', [AdminOrganizationController::class, 'index'])->name('organization.index');
             Route::get('/create', [AdminOrganizationController::class, 'create'])->name('organization.create');
             Route::post('/', [AdminOrganizationController::class, 'store'])->name('organization.store');
-            Route::get('/{id}/edit', [AdminOrganizationController::class, 'edit'])->name('organization.edit');
-            Route::put('/{id}', [AdminOrganizationController::class, 'update'])->name('organization.update');
-            Route::delete('/{id}', [AdminOrganizationController::class, 'destroy'])->name('organization.destroy');
+            Route::get('/{organization}/edit', [AdminOrganizationController::class, 'edit'])->name('organization.edit');
+            Route::put('/{organization}', [AdminOrganizationController::class, 'update'])->name('organization.update');
         });
     });
 
