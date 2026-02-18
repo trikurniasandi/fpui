@@ -56,7 +56,7 @@
                     </div>
                 </header>
 
-                <div class="prose max-w-full text-gray-700">
+                <div class="prose max-w-full text-gray-700 text-justify">
                     {!! $news->content !!}
                 </div>
 

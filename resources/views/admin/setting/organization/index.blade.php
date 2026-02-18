@@ -46,7 +46,7 @@
                             {{ $profile->name ?? 'Nama belum diisi' }}
                         </h3>
 
-                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-300 text-justify">
                             {{ $profile->description ?? 'Deskripsi belum tersedia.' }}
                         </p>
                     </div>
@@ -89,7 +89,7 @@
                         <h3 class="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-4">
                             Tentang Kami
                         </h3>
-                        <div class="prose dark:prose-invert max-w-none text-sm">
+                        <div class="prose dark:prose-invert max-w-none text-sm text-justify">
                             {!! $profile->about ?? '<span class="text-gray-500">Belum tersedia</span>' !!}
                         </div>
                     </div>

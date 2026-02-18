@@ -1,8 +1,8 @@
 @extends('layouts.public')
 
-@section('title', 'Artikel Literasi')
+@section('title', 'Artikel')
 
-@section('meta_description', 'Kumpulan artikel literasi, edukasi, dan pengembangan perpustakaan umum di Indonesia.')
+@section('meta_description', 'Kumpulan artikel, edukasi, dan pengembangan perpustakaan umum di Indonesia.')
 
 @section('content')
     <div class="max-w-7xl mx-auto px-6 py-14 space-y-12">
@@ -10,7 +10,7 @@
         <section>
             <div class="bg-white border border-gray-200 rounded-3xl p-10 shadow-sm">
                 <h1 class="text-3xl font-bold text-gray-900 mb-4">
-                    Artikel Literasi
+                    Artikel
                 </h1>
 
                 <p class="text-gray-600 max-w-6xl leading-relaxed">

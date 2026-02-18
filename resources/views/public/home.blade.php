@@ -221,16 +221,16 @@
                     from-emerald-600 to-emerald-500 p-10 md:p-14 text-white">
             <div class="max-w-3xl">
                 <span class="text-sm font-semibold uppercase tracking-wide opacity-90">
-                    Agenda & Kegiatan
+                    Agenda
                 </span>
 
                 <h2 class="text-3xl font-semibold mt-3 mb-4">
-                    Kegiatan Nasional & Kolaboratif
+                    Agenda Nasional & Kolaboratif
                 </h2>
 
                 <p class="text-emerald-50 leading-relaxed mb-6">
                     FPUI secara rutin menyelenggarakan forum diskusi, webinar literasi,
-                    dan kegiatan kolaboratif lintas daerah.
+                    dan agenda kolaboratif lintas daerah.
                 </p>
 
                 <a href="#"
