@@ -151,8 +151,8 @@
                 <h2 class="text-2xl font-semibold text-gray-900 mb-4">
                     Sekilas FPUI
                 </h2>
-                <div class="text-gray-700 leading-relaxed">
-                    {!! $organization->description !!}
+                <div class="text-gray-700 leading-relaxed text-justify">
+                    {{ $organization->description }}
                 </div>
             </div>
 
@@ -313,9 +313,8 @@
                 <h2 class="text-3xl font-semibold mb-4">
                     Tentang FPUI
                 </h2>
-                <p class="text-gray-300 leading-relaxed">
-                    FPUI berperan sebagai ruang kolaborasi nasional untuk memperkuat peran
-                    perpustakaan umum dalam pembangunan literasi dan masyarakat berbasis pengetahuan.
+                <p class="text-gray-300 leading-relaxed text-justify">
+                {{ $organization->about }}    
                 </p>
             </div>
 
