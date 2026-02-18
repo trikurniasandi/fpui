@@ -152,7 +152,7 @@
                     Sekilas FPUI
                 </h2>
                 <div class="text-gray-700 leading-relaxed text-justify">
-                    {{ $organization->description }}
+                    {{ $organization?->description }}
                 </div>
             </div>
 
@@ -314,7 +314,7 @@
                     Tentang FPUI
                 </h2>
                 <p class="text-gray-300 leading-relaxed text-justify">
-                {{ $organization->about }}    
+                {{ $organization?->about }}    
                 </p>
             </div>
 
