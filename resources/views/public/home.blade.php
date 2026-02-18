@@ -282,7 +282,7 @@
                     </h3>
 
                     <p class="text-sm text-gray-600 mb-4 line-clamp-3">
-                        {{ Str::limit(strip_tags($pub->content), 120) }}
+                        {{ Str::limit(html_entity_decode(strip_tags($pub->content)), 120) }}
                     </p>
 
                     <div class="mt-auto pt-4 flex items-center justify-between text-xs text-gray-500 border-t border-gray-100">

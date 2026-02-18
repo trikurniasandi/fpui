@@ -25,8 +25,8 @@ return new class extends Migration {
             $table->string('province')->nullable();
             $table->string('city')->nullable();
             $table->string('postal_code', 10)->nullable();
-            $table->decimal('latitude', 10, 7)->nullable();
-            $table->decimal('longitude', 10, 7)->nullable();
+            $table->decimal('latitude', 16, 13)->nullable();
+            $table->decimal('longitude', 16, 13)->nullable();
             $table->string('instagram')->nullable();
             $table->string('facebook')->nullable();
             $table->string('youtube')->nullable();

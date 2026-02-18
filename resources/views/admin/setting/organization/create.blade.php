@@ -168,19 +168,25 @@
                         Sosial Media
                     </h3>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <input type="url" name="instagram" placeholder="Instagram URL" value="{{ old('instagram') }}"
-                            class="rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <input  type="url" 
+                                name="instagram" 
+                                placeholder="Instagram URL" 
+                                value="{{ old('instagram') }}"
+                                class="rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100">
 
-                        <input type="url" name="facebook" placeholder="Facebook URL" value="{{ old('facebook') }}"
-                            class="rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100">
+                        <input  type="url" 
+                                name="facebook" 
+                                placeholder="Facebook URL" 
+                                value="{{ old('facebook') }}"
+                                class="rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100">
 
-                        <input type="url" name="youtube" placeholder="YouTube URL" value="{{ old('youtube') }}"
-                            class="rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100">
-
-                        <input type="url" name="twitter" placeholder="Twitter URL" value="{{ old('twitter') }}"
-                            class="rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100">
-                    </div>
+                        <input  type="url" 
+                                name="youtube" 
+                                placeholder="YouTube URL"
+                                value="{{ old('youtube') }}"
+                                class="rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100">
+                        </div>
                 </div>
 
                 <div class="flex justify-end gap-3 pt-6 border-t dark:border-gray-700">
