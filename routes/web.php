@@ -29,14 +29,19 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [PublicController::class, 'index'])->name('home');
 Route::get('/about', [PublicController::class, 'about'])->name('public.about');
 
-Route::prefix('article')->group(function () {
-    Route::get('/', [ArticleController::class, 'index'])->name('article.index');
-    Route::get('/{slug}', [ArticleController::class, 'show'])->name('article.show');
+Route::prefix('profile')->name('profile.')->group(function () {
+    Route::get('/organization-structure', [PublicController::class, 'organization_structure'])->name('structure');
+    Route::get('/history', [PublicController::class, 'history'])->name('history');
 });
 
-Route::prefix('news')->group(function () {
-    Route::get('/', [NewsController::class, 'index'])->name('news.index');
-    Route::get('/{slug}', [NewsController::class, 'show'])->name('news.show');
+Route::prefix('article')->name('article.')->group(function () {
+    Route::get('/', [ArticleController::class, 'index'])->name('index');
+    Route::get('/{slug}', [ArticleController::class, 'show'])->name('show');
+});
+
+Route::prefix('news')->name('news.')->group(function () {
+    Route::get('/', [NewsController::class, 'index'])->name('index');
+    Route::get('/{slug}', [NewsController::class, 'show'])->name('show');
 });
 
 Route::middleware(['auth', 'verified', 'admin'])

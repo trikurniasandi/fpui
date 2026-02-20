@@ -5,22 +5,20 @@
 @section('meta_description', 'Kumpulan artikel, edukasi, dan pengembangan perpustakaan umum di Indonesia.')
 
 @section('content')
+    <section class="bg-gradient-to-b from-emerald-50 to-white">
+        <div class="max-w-5xl mx-auto px-6 py-20 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                Artikel
+            </h1>
+            <p class="mt-6 text-lg text-gray-600 max-w-3xl mx-auto">
+                Kumpulan artikel yang membahas pengembangan literasi, pengelolaan
+                perpustakaan umum, peningkatan kualitas sumber daya manusia,
+                serta praktik baik dalam layanan informasi dan pengetahuan.   
+            </p>
+        </div>
+    </section>
+
     <div class="max-w-7xl mx-auto px-6 py-14 space-y-12">
-
-        <section>
-            <div class="bg-white border border-gray-200 rounded-3xl p-10 shadow-sm">
-                <h1 class="text-3xl font-bold text-gray-900 mb-4">
-                    Artikel
-                </h1>
-
-                <p class="text-gray-600 max-w-6xl leading-relaxed">
-                    Kumpulan artikel yang membahas pengembangan literasi, pengelolaan
-                    perpustakaan umum, peningkatan kualitas sumber daya manusia,
-                    serta praktik baik dalam layanan informasi dan pengetahuan.
-                </p>
-            </div>
-        </section>
-
 
         <section>
             @if($articles->isEmpty())

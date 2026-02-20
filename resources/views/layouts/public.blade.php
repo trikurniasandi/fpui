@@ -11,8 +11,6 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-
     <style>
         [x-cloak] {
             display: none !important;
@@ -58,22 +56,73 @@
             </button>
 
             <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
-                <a href="{{ route('home') }}" class="relative text-gray-700 hover:text-emerald-700 transition">
-                    Beranda
-                </a>
 
-                <a href="{{ route('article.index') }}" class="relative text-gray-700 hover:text-emerald-700 transition">
-                    Artikel
-                </a>
+                @foreach(config('public_navigation') as $menu)
 
-                <a href="{{ route('news.index') }}" class="relative text-gray-700 hover:text-emerald-700 transition">
-                    Berita
-                </a>
+                    @if(!isset($menu['children']))
 
-                <a href="{{ route('public.about') }}" class="relative text-gray-700 hover:text-emerald-700 transition">
-                    Tentang
-                </a>
+                            @php
+                                $isActive = request()->routeIs($menu['active_pattern'] ?? $menu['route']);
+                            @endphp
 
+                            <a href="{{ route($menu['route']) }}" class="relative transition duration-200
+                                       {{ $isActive
+                        ? 'text-emerald-700 font-semibold'
+                        : 'text-gray-700 hover:text-emerald-700' }}">
+                                {{ $menu['label'] }}
+                            </a>
+                    @else
+
+                            @php
+                                $isParentActive = collect($menu['children'])
+                                    ->pluck('active_pattern')
+                                    ->filter()
+                                    ->contains(fn($pattern) => request()->routeIs($pattern));
+                            @endphp
+
+                            <div x-data="{ openDropdown: false }" @mouseenter="openDropdown = true"
+                                @mouseleave="openDropdown = false" class="relative">
+
+                                <button class="inline-flex items-center gap-1 transition duration-200
+                                            {{ $isParentActive
+                        ? 'text-emerald-700 font-semibold'
+                        : 'text-gray-700 hover:text-emerald-700' }}">
+
+                                    {{ $menu['label'] }}
+
+                                    <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': openDropdown }" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+
+                                <div x-cloak x-show="openDropdown" x-transition
+                                    class="absolute left-0 mt-3 w-48 bg-white border border-gray-100 rounded-xl shadow-lg py-2">
+
+                                    @foreach($menu['children'] as $child)
+
+                                                @php
+                                                    $childActive = request()->routeIs($child['active_pattern'] ?? $child['route']);
+                                                @endphp
+
+                                                <a href="{{ route($child['route']) }}" class="block px-4 py-2 text-sm transition
+                                                                           {{ $childActive
+                                        ? 'bg-emerald-50 text-emerald-700 font-medium'
+                                        : 'text-gray-700 hover:bg-gray-100' }}">
+                                                    {{ $child['label'] }}
+                                                </a>
+
+                                    @endforeach
+
+                                </div>
+                            </div>
+
+                    @endif
+
+                @endforeach
+
+
+                {{-- AUTH SECTION --}}
                 @auth
                     <a href="{{ route('admin.dashboard') }}"
                         class="ml-4 text-emerald-700 font-semibold hover:text-emerald-800 transition">
@@ -90,21 +139,63 @@
         </div>
 
         <div x-cloak x-show="open" x-transition class="md:hidden border-t bg-white">
-            <nav class="flex flex-col px-6 py-4 space-y-3 text-sm font-medium text-gray-700">
-                <a href="{{ route('home') }}" class="hover:text-emerald-700">Home</a>
-                <a href="{{ route('article.index') }}" class="hover:text-emerald-700">Artikel</a>
-                <a href="{{ route('news.index') }}" class="hover:text-emerald-700">Berita</a>
-                <a href="{{ route('public.about') }}" class="hover:text-emerald-700">Tentang</a>
+            <nav class="flex flex-col px-6 py-4 space-y-2 text-sm font-medium">
 
+                @foreach(config('public_navigation') as $menu)
+
+                    @if(!isset($menu['children']))
+
+                        <a href="{{ route($menu['route']) }}" class="py-2 text-gray-700 hover:text-emerald-700 transition">
+                            {{ $menu['label'] }}
+                        </a>
+
+                    @else
+
+                        <div x-data="{ openSub: false }" class="border-t pt-3">
+
+                            <button @click="openSub = !openSub"
+                                class="w-full flex justify-between items-center py-2 text-gray-700 hover:text-emerald-700 transition">
+
+                                {{ $menu['label'] }}
+
+                                <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': openSub }" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+
+                            <div x-show="openSub" x-transition class="pl-4 space-y-1 mt-2">
+
+                                @foreach($menu['children'] as $child)
+                                    <a href="{{ route($child['route']) }}"
+                                        class="block py-1 text-gray-600 hover:text-emerald-700 transition">
+                                        {{ $child['label'] }}
+                                    </a>
+                                @endforeach
+
+                            </div>
+
+                        </div>
+
+                    @endif
+
+                @endforeach
+
+
+                {{-- AUTH SECTION --}}
                 @auth
-                    <a href="{{ route('admin.dashboard') }}" class="pt-2 text-emerald-700 font-semibold">Dashboard</a>
+                    <a href="{{ route('admin.dashboard') }}" class="pt-4 text-emerald-700 font-semibold">
+                        Dashboard
+                    </a>
                 @else
                     <a href="{{ route('login') }}"
-                        class="mt-2 inline-flex justify-center rounded-md bg-emerald-600 px-4 py-2 text-white">
+                        class="mt-4 inline-flex justify-center rounded-md bg-emerald-600 px-4 py-2 text-white">
                         Login
                     </a>
                 @endauth
+
             </nav>
+
         </div>
     </header>
 
@@ -117,7 +208,7 @@
             © {{ date('Y') }} Forum Perpustakaan Umum Indonesia. All rights reserved.
         </div>
     </footer>
-
+@stack('scripts')
 </body>
 
 </html>

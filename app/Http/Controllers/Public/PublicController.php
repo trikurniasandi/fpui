@@ -38,4 +38,14 @@ class PublicController extends Controller
 
         return view('public.about', compact('organization'));
     }
+
+    public function organization_structure()
+    {
+        return view('public.structure');
+    }
+    
+    public function history()
+    {
+        return view('public.history');
+    }
 }

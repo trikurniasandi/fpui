@@ -5,9 +5,11 @@
 @section('meta_description', 'Forum Perpustakaan Umum Indonesia (FPUI) merupakan wadah kolaborasi, informasi, dan pengembangan perpustakaan umum di seluruh Indonesia.')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-6 py-16 space-y-24">
-    
-    @if($banner->isNotEmpty())
+
+<div class="space-y-28">
+
+    <section class="max-w-7xl mx-auto px-6 pt-16">
+        @if($banner->isNotEmpty())
         <section 
             x-data="{
                 active: 0,
@@ -18,7 +20,7 @@
             x-init="setInterval(() => next(), 6000)"
             class="relative"
         >
-            <div class="relative overflow-hidden rounded-3xl h-[520px] shadow-xl">
+            <div class="relative overflow-hidden rounded-3xl h-[520px] shadow-2xl">
 
                 @foreach($banner as $index => $item)
                 <div x-show="active === {{ $index }}"
@@ -27,18 +29,25 @@
 
                     <img src="{{ $item->thumbnail 
                                 ? asset('storage/' . $item->thumbnail) 
-                                : 'https://picsum.photos/1600/600' }}"
+                                : asset('assets/images/logo.png') }}"
                         class="absolute inset-0 w-full h-full object-cover">
 
-                    <div class="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-gray-900/70 to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-gray-900/95 via-gray-900/70 to-transparent"></div>
 
-                    <div class="relative z-10 h-full flex items-center px-20">
-                        <div class="max-w-2xl text-white space-y-6">
+                    <div class="relative z-10 h-full flex items-center px-8 md:px-20">
+                        <div 
+                            x-data="{ show: false }"
+                            x-init="setTimeout(() => show = true, 200)"
+                            :class="show 
+                                ? 'opacity-100 translate-y-0' 
+                                : 'opacity-0 translate-y-6'"
+                            class="max-w-2xl text-white space-y-6 transition-all duration-700 ease-out"
+                        >
 
-                            <span class="inline-block text-sm font-semibold px-4 py-1.5 rounded-full
-                                    {{ $item->type === 'news'
-                                    ? 'bg-blue-100 text-blue-700'
-                                    : 'bg-emerald-100 text-emerald-700' }}">
+                            <span class="inline-block text-xs font-semibold tracking-wide uppercase px-4 py-1.5 rounded-full
+                                {{ $item->type === 'news'
+                                ? 'bg-blue-500/20 text-blue-200'
+                                : 'bg-emerald-500/20 text-emerald-200' }}">
                                 {{ $item->type === 'news' ? 'Berita' : 'Artikel' }}
                             </span>
 
@@ -55,8 +64,8 @@
                                         : route('article.show', $item->slug) }}"
                                class="inline-flex items-center gap-2 px-6 py-3 font-semibold rounded-xl transition
                                 {{ $item->type === 'news'
-                                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                                    : 'bg-emerald-600 hover:bg-emerald-700 text-white' }}">
+                                    ? 'bg-blue-600 hover:bg-blue-700'
+                                    : 'bg-emerald-600 hover:bg-emerald-700' }}">
                                 Baca Selengkapnya →
                             </a>
                         </div>
@@ -80,7 +89,7 @@
                     ›
                 </button>
 
-                <div class="absolute z-20 bottom-6 left-1/2 -translate-x-1/2 flex gap-3">
+                 <div class="absolute z-20 bottom-6 left-1/2 -translate-x-1/2 flex gap-3">
                     @foreach($banner as $index => $item)
                     <button @click="active = {{ $index }}"
                         :class="active === {{ $index }} 
@@ -90,12 +99,11 @@
                     </button>
                     @endforeach
                 </div>
-
             </div>
         </section>
-    @else
+        @else
         <section class="relative overflow-hidden rounded-3xl h-[520px] shadow-xl">
-            <img src="https://picsum.photos/1600/600"
+            <img src={{ asset('assets/images/logo.png') }}
                 class="absolute inset-0 w-full h-full object-cover">
 
             <div class="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-gray-900/70 to-transparent"></div>
@@ -124,17 +132,27 @@
                 </div>
             </div>
         </section>
-    @endif
+        @endif
+    </section>
 
-    <section>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <section class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             @foreach([
                 ['Jejaring Nasional', 'Menghubungkan perpustakaan umum di seluruh Indonesia untuk berbagi praktik terbaik dan inovasi layanan.'],
                 ['Pengembangan SDM', 'Mendukung peningkatan kapasitas pustakawan melalui literasi, diskusi, dan publikasi edukatif.'],
                 ['Inklusi Sosial', 'Mendorong perpustakaan sebagai ruang belajar yang inklusif dan memberdayakan masyarakat.'],
             ] as [$title, $desc])
-                <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-2">
+           <div 
+    x-data="{ show: false }"
+    x-intersect.once="setTimeout(() => show = true, 100)"
+    :class="show 
+        ? 'opacity-100 translate-y-0' 
+        : 'opacity-0 translate-y-8'"
+    class="bg-white rounded-3xl border border-gray-100 p-8 shadow-sm 
+           hover:shadow-xl hover:-translate-y-2
+           transition-all duration-700 ease-out"
+>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3">
                         {{ $title }}
                     </h3>
                     <p class="text-sm text-gray-600 leading-relaxed">
@@ -145,10 +163,19 @@
         </div>
     </section>
 
-    <section>
-        <div class="grid md:grid-cols-2 gap-10 items-center">
-            <div>
-                <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+ <section class="bg-gradient-to-b from-emerald-50 to-white">
+    <div class="max-w-7xl mx-auto px-6 py-20">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+
+            <div 
+                x-data="{ show: false }"
+                x-intersect.once="setTimeout(() => show = true, 100)"
+                :class="show 
+                    ? 'opacity-100 translate-x-0' 
+                    : 'opacity-0 -translate-x-10'"
+                class="transition-all duration-700 ease-out"
+            >
+                <h2 class="text-3xl font-bold mb-6">
                     Sekilas FPUI
                 </h2>
                 <div class="text-gray-700 leading-relaxed text-justify">
@@ -156,173 +183,166 @@
                 </div>
             </div>
 
-            <div class="relative h-64 rounded-3xl overflow-hidden">
-                <img src="{{ asset('assets/logo.png') }}"
-     class="absolute inset-0 w-full h-full object-contain">
-
-                <div class="absolute inset-0 bg-emerald-600/20"></div>
+            <div 
+                x-data="{ show: false }"
+                x-intersect.once="setTimeout(() => show = true, 300)"
+                :class="show 
+                    ? 'opacity-100 translate-x-0' 
+                    : 'opacity-0 translate-x-10'"
+                class="relative rounded-3xl p-12 flex items-center justify-center transition-all duration-700 ease-out"
+            >
+                <img src="{{ asset('assets/images/logo.png') }}"
+                    class="w-64 object-contain">
             </div>
-        </div>
-    </section>
 
-   <section>
-    <h2 class="text-2xl font-semibold text-gray-900 mb-10">
-        Peran & Fungsi
-    </h2>
-
-    <div class="grid md:grid-cols-2 gap-12 items-start">
-        <div class="space-y-8">
-            @foreach([
-                ['01', 'Koordinasi', 'Menghubungkan perpustakaan umum dan pemangku kepentingan.'],
-                ['02', 'Fasilitasi', 'Mendukung pertukaran praktik baik dan inovasi layanan.'],
-                ['03', 'Advokasi', 'Mendorong kebijakan dan penguatan peran perpustakaan.'],
-            ] as [$no, $title, $desc])
-                <div class="flex gap-6 items-start">
-                    <div class="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center font-semibold">
-                        {{ $no }}
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-900 mb-1">
-                            {{ $title }}
-                        </h3>
-                        <p class="text-gray-600 text-sm leading-relaxed">
-                            {{ $desc }}
-                        </p>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-
-        <div class="bg-gray-50 border border-gray-200 rounded-3xl p-8">
-            <div class="grid grid-cols-2 gap-6 text-center">
-                <div>
-                    <p class="text-3xl font-bold text-emerald-600">30+</p>
-                    <p class="text-sm text-gray-600 mt-1">Perpustakaan Terlibat</p>
-                </div>
-                <div>
-                    <p class="text-3xl font-bold text-emerald-600">15+</p>
-                    <p class="text-sm text-gray-600 mt-1">Kegiatan Nasional</p>
-                </div>
-                <div>
-                    <p class="text-3xl font-bold text-emerald-600">10+</p>
-                    <p class="text-sm text-gray-600 mt-1">Wilayah Provinsi</p>
-                </div>
-                <div>
-                    <p class="text-3xl font-bold text-emerald-600">100+</p>
-                    <p class="text-sm text-gray-600 mt-1">Pustakawan Terlibat</p>
-                </div>
-            </div>
         </div>
     </div>
-    </section>
+</section>
+    
+   <section class="bg-white py-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 text-center">
 
-    <section>
-        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r
-                    from-emerald-600 to-emerald-500 p-10 md:p-14 text-white">
-            <div class="max-w-3xl">
-                <span class="text-sm font-semibold uppercase tracking-wide opacity-90">
-                    Agenda
-                </span>
+                @foreach([
+                    [30, '+', 'Perpustakaan Terlibat'],
+                    [15, '+', 'Kegiatan Nasional'],
+                    [10, '+', 'Wilayah Provinsi'],
+                    [100, '+', 'Pustakawan Terlibat'],
+                ] as [$value, $suffix, $label])
 
-                <h2 class="text-3xl font-semibold mt-3 mb-4">
-                    Agenda Nasional & Kolaboratif
-                </h2>
+                <div 
+                    x-data="counter({{ $value }})"
+                    x-intersect.once="start()"
+                    class="space-y-2"
+                >
+                    <p class="text-4xl font-bold text-emerald-600">
+                        <span x-text="display"></span>{{ $suffix }}
+                    </p>
+                    <p class="text-sm text-gray-600">
+                        {{ $label }}
+                    </p>
+                </div>
 
-                <p class="text-emerald-50 leading-relaxed mb-6">
-                    FPUI secara rutin menyelenggarakan forum diskusi, webinar literasi,
-                    dan agenda kolaboratif lintas daerah.
-                </p>
+                @endforeach
 
-                <a href="#"
-                class="inline-flex items-center gap-2 px-6 py-3
-                        bg-white text-emerald-700 font-semibold rounded-xl
-                        hover:bg-emerald-50 transition">
-                    Lihat Agenda
-                    <span>→</span>
-                </a>
             </div>
         </div>
     </section>
 
-
-    @if($publications->isEmpty())
-        <div class="rounded-2xl border border-gray-200 bg-gray-50 p-8 text-center text-gray-500">
-            Belum ada publikasi yang tersedia.
-        </div>
-    @else
-
-    <section id="publikasi-terbaru" aria-labelledby="heading-publikasi">
-        <div class="flex items-center justify-between mb-6">
-            <h2 id="heading-publikasi" class="text-2xl font-semibold text-gray-900">
+    <section class="max-w-7xl mx-auto px-6">
+        <div class="flex items-center justify-between mb-10">
+            <h2 class="text-3xl font-bold text-gray-900">
                 Publikasi Terbaru
             </h2>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach($publications as $pub)
-                <article
-                    class="group bg-white rounded-2xl border border-gray-200 p-6
-                        shadow-sm hover:shadow-lg hover:-translate-y-1
-                        transition-all duration-300 flex flex-col">
+        @if($publications->isEmpty())
+            <div class="rounded-3xl border border-gray-200 bg-gray-50 p-10 text-center text-gray-500">
+                Belum ada publikasi yang tersedia.
+            </div>
+        @else
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @foreach($publications as $pub)
+                   <article 
+                    x-data="{ show: false }"
+                    x-intersect.once="setTimeout(() => show = true, 150)"
+                    :class="show 
+                        ? 'opacity-100 translate-y-0' 
+                        : 'opacity-0 translate-y-10'"
+                    class="group bg-white rounded-3xl border border-gray-100 p-8
+                        shadow-sm hover:shadow-xl hover:-translate-y-2
+                        transition-all duration-700 ease-out flex flex-col">
 
-                    <span class="inline-block items-center gap-1 mb-3 text-xs font-semibold px-3 py-1 rounded-full
-                        {{ $pub->type === 'news'
-                            ? 'bg-blue-50 text-blue-700'
-                            : 'bg-emerald-50 text-emerald-700' }}">
-                        {{ $pub->type === 'news' ? 'Berita' : 'Artikel' }}
-                    </span>
+                        <span class="text-xs font-semibold mb-4
+                            {{ $pub->type === 'news'
+                                ? 'text-blue-600'
+                                : 'text-emerald-600' }}">
+                            {{ strtoupper($pub->type) }}
+                        </span>
 
-                    <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2
-                            group-hover:text-emerald-700 transition-colors">
-                        <a href="{{ $pub->type === 'news'
-                                    ? route('news.show', $pub->slug)
-                                    : route('article.show', $pub->slug) }}">
-                            {{ $pub->title }}
-                        </a>
-                    </h3>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
+                            <a href="{{ $pub->type === 'news'
+                                        ? route('news.show', $pub->slug)
+                                        : route('article.show', $pub->slug) }}"
+                               class="hover:text-emerald-600 transition">
+                                {{ $pub->title }}
+                            </a>
+                        </h3>
 
-                    <p class="text-sm text-gray-600 mb-4 line-clamp-3">
-                        {{ Str::limit(html_entity_decode(strip_tags($pub->content)), 120) }}
-                    </p>
+                        <p class="text-sm text-gray-600 mb-6 line-clamp-3">
+                            {{ Str::limit(html_entity_decode(strip_tags($pub->content)), 120) }}
+                        </p>
 
-                    <div class="mt-auto pt-4 flex items-center justify-between text-xs text-gray-500 border-t border-gray-100">
-                        <span>{{ $pub->created_at->translatedFormat('d F Y') }}</span>
+                        <div class="mt-auto text-xs text-gray-500">
+                            {{ $pub->created_at->translatedFormat('d F Y') }}
+                        </div>
 
-                        <a href="{{ $pub->type === 'news'
-                                    ? route('news.show', $pub->slug)
-                                    : route('article.show', $pub->slug) }}"
-                        class="inline-flex items-center gap-1 font-medium text-emerald-600 hover:text-emerald-700">
-                            Baca
-                            <span class="transition group-hover:translate-x-1">→</span>
-                        </a>
-                    </div>
-
-                </article>
-            @endforeach
-        </div>
-
-        <div class="mt-10">
-            {{ $publications->onEachSide(1)->fragment('publikasi-terbaru')->links() }} 
-        </div>
-    </section>
-    @endif
-    
-    <section>
-        <div class="bg-gray-900 rounded-3xl p-10 md:p-14 text-white flex flex-col md:flex-row items-center justify-between gap-8">
-            <div class="max-w-2xl">
-                <h2 class="text-3xl font-semibold mb-4">
-                    Tentang FPUI
-                </h2>
-                <p class="text-gray-300 leading-relaxed text-justify">
-                {{ $organization?->about }}    
-                </p>
+                    </article>
+                @endforeach
             </div>
 
-            <a href="{{ route('public.about') }}"
-               class="px-7 py-3 bg-emerald-600 font-semibold rounded-xl hover:bg-emerald-700 transition">
-                Tentang Kami
-            </a>
+            <div class="mt-12">
+                {{ $publications->onEachSide(1)->links() }}
+            </div>
+        @endif
+    </section>
+
+   <section class="bg-gradient-to-b from-white to-emerald-50 py-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div 
+                x-data="{ show: false }"
+                x-intersect.once="setTimeout(() => show = true, 200)"
+                :class="show 
+                    ? 'opacity-100 scale-100' 
+                    : 'opacity-0 scale-95'"
+                class="bg-gradient-to-r from-emerald-600 to-emerald-500 
+                    rounded-3xl p-14 text-white text-center
+                    transition-all duration-900 ease-out"
+            >
+                <h2 class="text-3xl font-bold mb-6">
+                    Bersama Memperkuat Literasi Indonesia
+                </h2>
+                <p class="max-w-2xl mx-auto mb-8 text-emerald-50">
+                    FPUI terbuka untuk kolaborasi dan partisipasi aktif dalam pengembangan
+                    perpustakaan umum yang inklusif dan inovatif.
+                </p>
+
+                <a href="{{ route('public.about') }}"
+                class="inline-flex px-8 py-3 bg-white text-emerald-700 font-semibold rounded-xl hover:bg-gray-100 transition">
+                    Tentang Kami
+                </a>
+            </div>
         </div>
     </section>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('alpine:init', () => {
+    Alpine.data('counter', (target) => ({
+        target: target,
+        display: 0,
+        duration: 1500,
+        start() {
+            let startTime = null;
+
+            const animate = (timestamp) => {
+                if (!startTime) startTime = timestamp;
+                const progress = timestamp - startTime;
+                const percentage = Math.min(progress / this.duration, 1);
+                this.display = Math.floor(percentage * this.target);
+
+                if (progress < this.duration) {
+                    requestAnimationFrame(animate);
+                } else {
+                    this.display = this.target;
+                }
+            };
+
+            requestAnimationFrame(animate);
+        }
+    }))
+})
+</script>
+@endpush
