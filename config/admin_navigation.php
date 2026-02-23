@@ -9,6 +9,12 @@ return [
     ],
 
     [
+        'label' => 'Banner',
+        'route' => 'admin.banner.index',
+        'active_pattern' => 'admin.banner.index',
+    ],
+
+    [
         'label' => 'Artikel',
         'route' => 'admin.article.index',
         'active_pattern' => 'admin.article.*',

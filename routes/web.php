@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminArticleController;
+use App\Http\Controllers\Admin\AdminBannerController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminNewsController;
@@ -53,6 +54,15 @@ Route::middleware(['auth', 'verified', 'admin'])
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::prefix('banner')->group( function(){
+        Route::get('/', [AdminBannerController::class, 'index'])->name('banner.index');
+        Route::get('/create', [AdminBannerController::class, 'create'])->name('banner.create');
+        Route::post('/', [AdminBannerController::class, 'store'])->name('banner.store');
+        Route::get('/{id}/edit', [AdminBannerController::class, 'edit'])->name('banner.edit');
+        Route::put('/{id}', [AdminBannerController::class, 'update'])->name('banner.update');
+        Route::delete('{id}', [AdminBannerController::class, 'destroy'])->name('banner.destroy');
+    });
 
     Route::prefix('article')->group(function () {
         Route::get('/', [AdminArticleController::class, 'index'])->name('article.index');
