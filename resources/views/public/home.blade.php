@@ -7,13 +7,14 @@
 @section('content')
 
 <div class="space-y-28">
-
+    
     <section class="max-w-7xl mx-auto px-6 pt-16">
-        @if($banner->isNotEmpty())
+     @if($heroItems->isNotEmpty())
         <section 
+            x-cloak
             x-data="{
                 active: 0,
-                total: {{ $banner->count() }},
+                total: {{ $heroItems->count() }},
                 next() { this.active = (this.active + 1) % this.total },
                 prev() { this.active = (this.active - 1 + this.total) % this.total }
             }"
@@ -21,8 +22,8 @@
             class="relative"
         >
             <div class="relative overflow-hidden rounded-3xl h-[520px] shadow-2xl">
-
-                @foreach($banner as $index => $item)
+                
+            @foreach($heroItems as $index => $item)
                 <div x-show="active === {{ $index }}"
                     x-transition.opacity.duration.700ms
                     class="absolute inset-0">
@@ -41,33 +42,42 @@
                             :class="show 
                                 ? 'opacity-100 translate-y-0' 
                                 : 'opacity-0 translate-y-6'"
-                            class="max-w-2xl text-white space-y-6 transition-all duration-700 ease-out"
-                        >
+                            class="max-w-2xl text-white space-y-6 transition-all duration-700 ease-out">
 
-                            <span class="inline-block text-xs font-semibold tracking-wide uppercase px-4 py-1.5 rounded-full
-                                {{ $item->type === 'news'
-                                ? 'bg-blue-500/20 text-blue-200'
-                                : 'bg-emerald-500/20 text-emerald-200' }}">
-                                {{ $item->type === 'news' ? 'Berita' : 'Artikel' }}
-                            </span>
+                            @if($item->source === 'publication')
+                                <span class="inline-block text-xs font-semibold tracking-wide uppercase px-4 py-1.5 rounded-full
+                                    {{ $item->type === 'news'
+                                        ? 'bg-blue-500/20 text-blue-200'
+                                        : 'bg-emerald-500/20 text-emerald-200' }}">
+                                    {{ $item->type === 'news' ? 'Berita' : 'Artikel' }}
+                                </span>
+                            @endif
 
                             <h1 class="text-4xl md:text-5xl font-bold leading-tight">
                                 {{ Str::limit(html_entity_decode(strip_tags($item->title)), 25) }}
                             </h1>
 
+                            @php
+                                $desc = $item->source === 'publication'
+                                    ? $item->content
+                                    : $item->description;
+                            @endphp
+
                             <p class="text-gray-200 text-lg leading-relaxed line-clamp-3">
-                                {{ Str::limit(html_entity_decode(strip_tags($item->content)), 200) }}
+                                {{ Str::limit(html_entity_decode(strip_tags($desc)), 200) }}
                             </p>
 
-                            <a href="{{ $item->type === 'news'
-                                        ? route('news.show', $item->slug)
-                                        : route('article.show', $item->slug) }}"
-                               class="inline-flex items-center gap-2 px-6 py-3 font-semibold rounded-xl transition
-                                {{ $item->type === 'news'
-                                    ? 'bg-blue-600 hover:bg-blue-700'
-                                    : 'bg-emerald-600 hover:bg-emerald-700' }}">
-                                Baca Selengkapnya →
-                            </a>
+                            @if($item->source === 'publication')
+                                <a href="{{ $item->type === 'news'
+                                            ? route('news.show', $item->slug)
+                                            : route('article.show', $item->slug) }}"
+                                class="inline-flex items-center gap-2 px-6 py-3 font-semibold rounded-xl transition
+                                    {{ $item->type === 'news'
+                                        ? 'bg-blue-600 hover:bg-blue-700'
+                                        : 'bg-emerald-600 hover:bg-emerald-700' }}">
+                                    Baca Selengkapnya →
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -90,7 +100,8 @@
                 </button>
 
                  <div class="absolute z-20 bottom-6 left-1/2 -translate-x-1/2 flex gap-3">
-                    @foreach($banner as $index => $item)
+                
+                @foreach($heroItems as $index => $item)
                     <button @click="active = {{ $index }}"
                         :class="active === {{ $index }} 
                                 ? 'bg-white w-6' 
