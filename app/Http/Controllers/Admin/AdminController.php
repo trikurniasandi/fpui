@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use App\Models\Category;
 use App\Models\OrganizationProfile;
 use App\Models\Publication;
@@ -12,6 +13,8 @@ class AdminController extends Controller
 {
     public function index()
     {
+        $totalBanners = Banner::count();
+
         $totalArticles = Publication::where('type', 'article')
         ->count();
 
@@ -29,6 +32,7 @@ class AdminController extends Controller
         $organization = OrganizationProfile::first();
 
         return view('admin.dashboard', compact(
+            'totalBanners',
             'totalArticles',
             'totalNews',
             'totalPublished',

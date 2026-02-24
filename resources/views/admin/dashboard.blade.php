@@ -20,6 +20,13 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
 
                 <div class="bg-white p-6 rounded-2xl shadow-sm border">
+                    <p class="text-sm text-gray-500">Total Banner</p>
+                    <h3 class="text-3xl font-bold text-gray-900 mt-2">
+                        {{ $totalBanners }}
+                    </h3>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border">
                     <p class="text-sm text-gray-500">Total Artikel</p>
                     <h3 class="text-3xl font-bold text-gray-900 mt-2">
                         {{ $totalArticles }}
@@ -33,18 +40,19 @@
                     </h3>
                 </div>
 
-                <div class="bg-white p-6 rounded-2xl shadow-sm border">
-                    <p class="text-sm text-gray-500">Published</p>
-                    <h3 class="text-3xl font-bold text-emerald-600 mt-2">
-                        {{ $totalPublished }}
-                    </h3>
-                </div>
-
-                <div class="bg-white p-6 rounded-2xl shadow-sm border">
-                    <p class="text-sm text-gray-500">Draft</p>
-                    <h3 class="text-3xl font-bold text-yellow-500 mt-2">
-                        {{ $totalDraft }}
-                    </h3>
+                <div class="flex items-center bg-white p-6 rounded-2xl shadow-sm border">
+                    <div>
+                        <p class="text-sm text-gray-500">Published / Draft</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <h3 class="text-3xl font-bold text-emerald-600">
+                                {{ $totalPublished }}
+                            </h3>
+                            <span class="text-3xl font-bold">/</span>
+                            <h3 class="text-3xl font-bold text-yellow-500">
+                                {{ $totalDraft }}
+                            </h3>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="bg-white p-6 rounded-2xl shadow-sm border">
@@ -57,41 +65,40 @@
             </div>
 
             @if($organization)
-            <div class="bg-white p-6 rounded-2xl shadow-sm border">
-                <h3 class="text-lg font-semibold text-gray-800 mb-6">
-                    Profil Organisasi
-                </h3>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-6">
+                        Profil Organisasi
+                    </h3>
 
-                <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+                    <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
 
-                    @if($organization->logo)
-                        <img src="{{ asset('storage/'.$organization->logo) }}"
-                             class="h-20 object-contain">
-                    @endif
+                        @if($organization->logo)
+                            <img src="{{ asset('storage/' . $organization->logo) }}" class="h-20 object-contain">
+                        @endif
 
-                    <div class="text-center md:text-left">
-                        <p class="text-lg font-semibold text-gray-900">
-                            {{ $organization->name }}
-                        </p>
+                        <div class="text-center md:text-left">
+                            <p class="text-lg font-semibold text-gray-900">
+                                {{ $organization->name }}
+                            </p>
 
-                        <p class="text-sm text-gray-500 mt-1">
-                            {{ $organization->email }}
-                        </p>
+                            <p class="text-sm text-gray-500 mt-1">
+                                {{ $organization->email }}
+                            </p>
 
-                        <p class="text-sm text-gray-500">
-                            {{ $organization->phone }}
-                        </p>
+                            <p class="text-sm text-gray-500">
+                                {{ $organization->phone }}
+                            </p>
 
-                        <div class="mt-4">
-                            <a href="{{ route('admin.settings.organization.edit', $organization) }}"
-                               class="inline-flex px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded-lg hover:bg-emerald-700 transition">
-                                Edit Profil
-                            </a>
+                            <div class="mt-4">
+                                <a href="{{ route('admin.settings.organization.edit', $organization) }}"
+                                    class="inline-flex px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded-lg hover:bg-emerald-700 transition">
+                                    Edit Profil
+                                </a>
+                            </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
-            </div>
             @endif
 
             <div class="bg-white p-6 rounded-2xl shadow-sm border">
@@ -101,18 +108,23 @@
 
                 <div class="flex flex-wrap gap-4">
 
+                    <a href="{{ route('admin.banner.create') }}"
+                        class="px-5 py-2 bg-amber-500 text-white rounded-lg text-sm font-medium hover:bg-amber-600 transition">
+                        + Tambah Banner
+                    </a>
+
                     <a href="{{ route('admin.article.create') }}"
-                       class="px-5 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700 transition">
+                        class="px-5 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700 transition">
                         + Tambah Artikel
                     </a>
 
                     <a href="{{ route('admin.news.create') }}"
-                       class="px-5 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition">
+                        class="px-5 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition">
                         + Tambah Berita
                     </a>
 
                     <a href="{{ route('admin.settings.category.index') }}"
-                       class="px-5 py-2 bg-gray-800 text-white rounded-lg text-sm font-medium hover:bg-gray-900 transition">
+                        class="px-5 py-2 bg-gray-800 text-white rounded-lg text-sm font-medium hover:bg-gray-900 transition">
                         Kelola Kategori
                     </a>
 
