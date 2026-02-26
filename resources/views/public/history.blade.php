@@ -51,40 +51,46 @@
 
                 <div class="relative">
                     <span class="absolute -left-[11px] top-1 w-4 h-4 bg-emerald-600 rounded-full"></span>
-                    <h3 class="font-semibold text-gray-900">Fase Inisiasi</h3>
-                    <p class="text-sm text-gray-600 mt-2">
-                        Diskusi dan pertemuan antar pengelola perpustakaan umum
-                        untuk membangun jaringan komunikasi nasional.
-                    </p>
+                        <div class="m-4">    
+                            <h3 class="font-semibold text-gray-900">Fase Inisiasi</h3>
+                            <p class="text-sm text-gray-600 mt-2">
+                                Diskusi dan pertemuan antar pengelola perpustakaan umum
+                                untuk membangun jaringan komunikasi nasional.
+                            </p>
+                        </div>     
                 </div>
 
                 <div class="relative">
                     <span class="absolute -left-[11px] top-1 w-4 h-4 bg-emerald-600 rounded-full"></span>
-                    <h3 class="font-semibold text-gray-900">Pembentukan Resmi</h3>
-                    <p class="text-sm text-gray-600 mt-2">
-                        FPUI resmi dibentuk sebagai forum komunikasi dan kolaborasi
-                        perpustakaan umum di Indonesia.
-                    </p>
+                        <div class="m-4">    
+                            <h3 class="font-semibold text-gray-900">Pembentukan Resmi</h3>
+                            <p class="text-sm text-gray-600 mt-2">
+                                FPUI resmi dibentuk sebagai forum komunikasi dan kolaborasi
+                                perpustakaan umum di Indonesia.
+                            </p>
+                        </div>
                 </div>
 
                 <div class="relative">
                     <span class="absolute -left-[11px] top-1 w-4 h-4 bg-emerald-600 rounded-full"></span>
-                    <h3 class="font-semibold text-gray-900">Penguatan Program Nasional</h3>
-                    <p class="text-sm text-gray-600 mt-2">
-                        Pelaksanaan berbagai seminar, pelatihan, dan forum berbagi
-                        praktik baik antar daerah.
-                    </p>
+                        <div class="m-4">    
+                            <h3 class="font-semibold text-gray-900">Penguatan Program Nasional</h3>
+                            <p class="text-sm text-gray-600 mt-2">
+                                Pelaksanaan berbagai seminar, pelatihan, dan forum berbagi
+                                praktik baik antar daerah.
+                            </p>
+                        </div>
                 </div>
 
                 <div class="relative">
                     <span class="absolute -left-[11px] top-1 w-4 h-4 bg-emerald-600 rounded-full"></span>
-                    <h3 class="font-semibold text-gray-900">Transformasi Digital</h3>
-                    <p class="text-sm text-gray-600 mt-2">
-                        Adaptasi terhadap perkembangan teknologi informasi
-                        untuk meningkatkan layanan dan akses literasi masyarakat.
-                    </p>
-                </div>
-
+                        <div class="m-4">    
+                            <h3 class="font-semibold text-gray-900">Transformasi Digital</h3>
+                            <p class="text-sm text-gray-600 mt-2">
+                                Adaptasi terhadap perkembangan teknologi informasi
+                                untuk meningkatkan layanan dan akses literasi masyarakat.
+                            </p>
+                        </div>
             </div>
 
         </div>
