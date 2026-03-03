@@ -13,7 +13,7 @@
                     Selamat Datang, {{ auth()->user()->name }} !!
                 </h3>
                 <p class="text-emerald-100">
-                    Kelola artikel, berita, kategori, dan profil organisasi melalui dashboard ini.
+                    Kelola artikel, berita, kategori, Pengguna, dan profil organisasi melalui dashboard ini.
                 </p>
             </div>
 
@@ -106,27 +106,36 @@
                     Akses Cepat
                 </h3>
 
+                @php
+                    $role = auth()->user()->role;
+                @endphp
+
                 <div class="flex flex-wrap gap-4">
 
-                    <a href="{{ route('admin.banner.create') }}"
-                        class="px-5 py-2 bg-amber-500 text-white rounded-lg text-sm font-medium hover:bg-amber-600 transition">
-                        + Tambah Banner
-                    </a>
+                    @if($role === 'admin')
+                        <a href="{{ route('admin.banner.create') }}"
+                            class="px-5 py-2 bg-amber-500 text-white rounded-lg text-sm font-medium hover:bg-amber-600 transition">
+                            + Tambah Banner
+                        </a>
+                    @endif
+                    @if(in_array($role, ['admin', 'user']))
+                        <a href="{{ route('admin.article.create') }}"
+                            class="px-5 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700 transition">
+                            + Tambah Artikel
+                        </a>
 
-                    <a href="{{ route('admin.article.create') }}"
-                        class="px-5 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700 transition">
-                        + Tambah Artikel
-                    </a>
+                        <a href="{{ route('admin.news.create') }}"
+                            class="px-5 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition">
+                            + Tambah Berita
+                        </a>
+                    @endif
 
-                    <a href="{{ route('admin.news.create') }}"
-                        class="px-5 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition">
-                        + Tambah Berita
-                    </a>
-
-                    <a href="{{ route('admin.settings.category.index') }}"
-                        class="px-5 py-2 bg-gray-800 text-white rounded-lg text-sm font-medium hover:bg-gray-900 transition">
-                        Kelola Kategori
-                    </a>
+                    @if($role === 'admin')
+                        <a href="{{ route('admin.settings.category.index') }}"
+                            class="px-5 py-2 bg-gray-800 text-white rounded-lg text-sm font-medium hover:bg-gray-900 transition">
+                            Kelola Kategori
+                        </a>
+                    @endif
 
                 </div>
             </div>

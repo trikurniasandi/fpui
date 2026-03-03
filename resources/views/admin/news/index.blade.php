@@ -133,7 +133,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="7"
+                                    <td colspan="8"
                                         class="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
                                         Belum ada Berita.
                                     </td>

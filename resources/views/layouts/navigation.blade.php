@@ -1,3 +1,29 @@
+@php
+    $role = auth()->user()->role;
+
+    $menus = collect(config('admin_navigation'))
+        ->filter(fn($menu) =>
+            !isset($menu['roles']) || in_array($role, $menu['roles'])
+        )
+        ->map(function ($menu) use ($role) {
+
+            if (isset($menu['children'])) {
+                $menu['children'] = collect($menu['children'])
+                    ->filter(fn($child) =>
+                        !isset($child['roles']) || in_array($role, $child['roles'])
+                    )
+                    ->values()
+                    ->toArray();
+            }
+
+            return $menu;
+        })
+        ->filter(fn($menu) =>
+            !isset($menu['children']) || count($menu['children']) > 0
+        )
+        ->values();
+@endphp
+
 <nav x-data="{ open: false }"
     class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
 
@@ -30,7 +56,7 @@
                 <!-- Desktop Navigation -->
                 <div class="hidden sm:flex sm:items-center sm:ms-10 space-x-8">
 
-                    @foreach(config('admin_navigation') as $menu)
+                    @foreach($menus as $menu)
 
                         {{-- Single Menu --}}
                         @if(!isset($menu['children']))
@@ -46,9 +72,9 @@
 
                             @php
                                 $isActive = collect($menu['children'])
-                                    ->pluck('active_pattern')
-                                    ->filter()
-                                    ->contains(fn($pattern) => request()->routeIs($pattern));
+                                    ->contains(fn($child) =>
+                                        request()->routeIs($child['active_pattern'] ?? $child['route'])
+                                    );
                             @endphp
 
                             <x-dropdown align="left" width="48">
@@ -149,7 +175,7 @@
 
         <div class="pt-2 pb-3 space-y-1">
 
-            @foreach(config('admin_navigation') as $menu)
+            @foreach($menus as $menu)
 
                 @if(!isset($menu['children']))
 
