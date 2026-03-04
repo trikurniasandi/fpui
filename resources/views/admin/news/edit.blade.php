@@ -43,10 +43,7 @@
                             Konten Berita <span class="text-red-500">*</span>
                         </label>
 
-                        <x-ckeditor
-                            name="content"
-                            id="editor"
-                            :value="old('content', $news->content)" />
+                        <x-tinymce name="content" id="editor" :value="old('content', $news->content)" />
 
                         @error('content')
                             <p class="mt-1 text-xs text-red-600">{{ $message }}</p>

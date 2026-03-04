@@ -94,14 +94,16 @@
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Visi</label>
-                        <x-ckeditor name="vision" id="editor"
-                            :value="old('vision', $profile->vision)" />
+
+                        <x-tinymce name="vission" id="editor" :value="old('vission', $profile->vission)" />
+
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Misi</label>
-                        <x-ckeditor name="mission" id="editor2"
-                            :value="old('mission', $profile->mission)" />
+                     
+                        <x-tinymce name="mission" id="editor2" :value="old('mission', $profile->mission)" />
+
                     </div>
                 </div>
 

@@ -1,4 +1,5 @@
 import './bootstrap';
+import './tinymce';
 
 import Alpine from 'alpinejs';
 import intersect from '@alpinejs/intersect';

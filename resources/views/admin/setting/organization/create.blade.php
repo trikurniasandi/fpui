@@ -72,7 +72,7 @@
                             Visi
                         </label>
 
-                        <x-ckeditor name="vision" id="editor" :value="old('vision')" />
+                        <x-tinymce name="vision" id="editor" :value="old('content')" />
 
                         @error('vision')
                             <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -85,7 +85,7 @@
                             Misi
                         </label>
 
-                        <x-ckeditor name="mission" id="editor2" :value="old('mission')" />
+                        <x-tinymce name="mission" id="editor2" :value="old('mission')" />
 
                         @error('mission')
                             <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
