@@ -48,7 +48,7 @@
 
             <div class="bg-white border rounded-2xl shadow-sm p-6 md:p-10">
                 <div class="flex justify-center">
-                    <img src="{{ asset('assets/images/structure.png') }}" alt="Struktur Organisasi FPUI"
+                    <img src="{{ asset('assets/images/structure.jpeg') }}" alt="Struktur Organisasi FPUI"
                         class="w-full max-w-5xl rounded-xl shadow-md object-contain hover:scale-[1.01] transition duration-300">
                 </div>
             </div>
