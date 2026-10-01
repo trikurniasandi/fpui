@@ -35,7 +35,7 @@
                             Deskripsi Banner <span class="text-red-500">*</span>
                         </label>
 
-                        <x-tinymce name="content" id="editor" :value="old('content')" />
+                        <x-tinymce name="description" id="editor" :value="old('description')" />
 
                         @error('description')
                             <p class="mt-1 text-xs text-red-600">{{ $message }}</p>

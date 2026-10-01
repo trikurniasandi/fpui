@@ -1,6 +1,6 @@
 /.phpunit.cache
 /node_modules
-/public/build
+# /public/build  -- sengaja di-commit agar `git pull` di cPanel membawa hasil vite build (server tanpa Node.js)
 /public/hot
 /public/storage
 /storage/*.key
