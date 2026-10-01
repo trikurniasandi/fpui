@@ -37,6 +37,12 @@ return [
     ],
 
     [
+        'label' => 'Program',
+        'route' => 'program.index',
+        'active_pattern' => 'program.*',
+    ],
+
+    [
         'label' => 'Tentang',
         'route' => 'public.about',
     ],

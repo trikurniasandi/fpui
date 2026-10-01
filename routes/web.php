@@ -47,6 +47,10 @@ Route::prefix('news')->name('news.')->group(function () {
     Route::get('/{slug}', [NewsController::class, 'show'])->name('show');
 });
 
+Route::prefix('program')->name('program.')->group(function () {
+    Route::get('/', [PublicController::class, 'programs'])->name('index');
+});
+
 Route::middleware('auth')->group(function () {
 
     Route::get('/force-change-password', [ForcePasswordController::class, 'edit'])

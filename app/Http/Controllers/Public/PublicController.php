@@ -71,4 +71,9 @@ class PublicController extends Controller
     {
         return view('public.history');
     }
+
+    public function programs()
+    {
+        return view('public.programs');
+    }
 }
