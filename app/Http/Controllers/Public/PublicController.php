@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use App\Models\InstagramSetting;
 use App\Models\OrganizationProfile;
 use App\Models\Publication;
-use Illuminate\Http\Request;
 
 class PublicController extends Controller
 {
@@ -52,7 +52,26 @@ class PublicController extends Controller
             ->sortByDesc('created_at')
             ->values();
 
-        return view('public.home', compact('heroItems', 'publications', 'organization'));
+        $instagramAccounts = InstagramSetting::query()
+            ->active()
+            ->ordered()
+            ->get()
+            ->filter(fn (InstagramSetting $account) => $account->hasToken())
+            ->values()
+            ->map(fn (InstagramSetting $account) => [
+                'id' => (string) $account->id,
+                'label' => $account->displayName(),
+                'username' => ltrim((string) $account->username, '@'),
+                'profile_url' => $account->profileUrl(),
+                'endpoint' => route('instagram.feed.account', $account),
+            ]);
+
+        return view('public.home', compact(
+            'heroItems',
+            'publications',
+            'organization',
+            'instagramAccounts'
+        ));
     }
 
     public function about()

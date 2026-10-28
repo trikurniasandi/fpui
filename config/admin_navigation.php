@@ -52,6 +52,12 @@ return [
                 'active_pattern' => 'admin.settings.user.*',
                 'roles' => ['admin'],
             ],
+            [
+                'label' => 'Instagram Feed',
+                'route' => 'admin.settings.instagram.index',
+                'active_pattern' => 'admin.settings.instagram.*',
+                'roles' => ['admin'],
+            ],
         ],
     ],
 

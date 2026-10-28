@@ -12,7 +12,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('instagram:refresh-token')
+            ->dailyAt('23:50')
+            ->withoutOverlapping();
     }
 
     /**

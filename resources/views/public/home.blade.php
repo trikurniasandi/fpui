@@ -298,6 +298,12 @@
         @endif
     </section>
 
+    @if (config('instagram.enabled', true) && $instagramAccounts->isNotEmpty())
+        @include('public.partials.instagram-feed', [
+            'accounts' => $instagramAccounts,
+        ])
+    @endif
+
    <section class="bg-gradient-to-b from-white to-emerald-50 py-20">
         <div class="max-w-7xl mx-auto px-6">
             <div 
