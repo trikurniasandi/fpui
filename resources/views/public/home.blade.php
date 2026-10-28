@@ -26,12 +26,19 @@
             @foreach($heroItems as $index => $item)
                 <div x-show="active === {{ $index }}"
                     x-transition.opacity.duration.700ms
-                    class="absolute inset-0">
+                    class="absolute inset-0 bg-gray-900">
 
-                    <img src="{{ $item->thumbnail 
-                                ? asset('storage/' . $item->thumbnail) 
-                                : asset('assets/images/logo.png') }}"
-                        class="absolute inset-0 w-full h-full object-cover">
+                    @php
+                        $heroImage = $item->thumbnail
+                            ? asset('storage/' . $item->thumbnail)
+                            : asset('assets/images/logo.png');
+                    @endphp
+
+                    <img src="{{ $heroImage }}" alt="" aria-hidden="true"
+                        class="absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-40">
+
+                    <img src="{{ $heroImage }}" alt="{{ $item->title }}"
+                        class="absolute inset-0 w-full h-full object-contain">
 
                     <div class="absolute inset-0 bg-gradient-to-r from-gray-900/95 via-gray-900/70 to-transparent"></div>
 
@@ -113,9 +120,12 @@
             </div>
         </section>
         @else
-        <section class="relative overflow-hidden rounded-3xl h-[520px] shadow-xl">
-            <img src={{ asset('assets/images/logo.png') }}
-                class="absolute inset-0 w-full h-full object-cover">
+        <section class="relative overflow-hidden rounded-3xl h-[520px] shadow-xl bg-gray-900">
+            <img src="{{ asset('assets/images/logo.png') }}" alt="" aria-hidden="true"
+                class="absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-40">
+
+            <img src="{{ asset('assets/images/logo.png') }}" alt="Forum Perpustakaan Umum Indonesia"
+                class="absolute inset-0 w-full h-full object-contain">
 
             <div class="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-gray-900/70 to-transparent"></div>
 
