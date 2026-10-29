@@ -18,9 +18,7 @@
                 </h2>
 
                 @if ($organization->about)
-                    <p class="text-gray-700 leading-relaxed text-justify">
-                        {{ $organization->about }}
-                    </p>
+                    <x-safe-html :html="$organization->about" class="space-y-4 text-gray-700 leading-relaxed text-justify" />
                 @endif
 
                 @if ($organization->description)
@@ -40,46 +38,36 @@
         <section class="bg-gray-50 border-y">
             <div class="max-w-6xl mx-auto px-6 py-16">
 
-                <div class="grid md:grid-cols-2 gap-8">
-
-                    <div class="bg-white border rounded-2xl p-8 shadow-sm">
-                        <h2 class="text-xl font-semibold text-gray-900 mb-4">Visi</h2>
-                        <div class="prose max-w-none text-gray-600 leading-relaxed line-clamp-6">
-                            {!! $organization->vision ?: '<p>Visi organisasi belum diisi.</p>' !!}
-                        </div>
-                        <a href="{{ route('tentang.visi-misi') }}"
-                            class="inline-flex mt-6 text-sm font-medium text-emerald-700 hover:text-emerald-800">
-                            Lihat visi dan misi lengkap →
-                        </a>
-                    </div>
-
-                    <div class="bg-white border rounded-2xl p-8 shadow-sm">
-                        <h2 class="text-xl font-semibold text-gray-900 mb-4">Misi</h2>
-                        <div class="prose max-w-none text-gray-600 leading-relaxed line-clamp-6">
-                            {!! $organization->mission ?: '<p>Misi organisasi belum diisi.</p>' !!}
-                        </div>
-                        <a href="{{ route('tentang.visi-misi') }}"
-                            class="inline-flex mt-6 text-sm font-medium text-emerald-700 hover:text-emerald-800">
-                            Lihat visi dan misi lengkap →
-                        </a>
-                    </div>
-
-                </div>
-
-            </div>
-        </section>
-
-        <section class="bg-white">
-            <div class="max-w-6xl mx-auto px-6 py-16">
-
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Informasi & Kontak</h2>
-                    <p class="text-gray-600 max-w-2xl mx-auto">
-                        Hubungi {{ $organization->name }} melalui informasi resmi berikut.
+                <div class="max-w-2xl mx-auto text-center mb-10">
+                    <h2 class="text-2xl font-semibold text-gray-900 mb-3">Selengkapnya tentang FPUI</h2>
+                    <p class="text-gray-600 leading-relaxed">
+                        Telusuri informasi organisasi dan kanal komunikasi melalui halaman berikut.
                     </p>
                 </div>
 
-                <x-contact-cards :organization="$organization" :showSocial="true" :showMap="true" />
+                <div class="grid sm:grid-cols-2 gap-6">
+
+                    @foreach ([
+                        ['title' => 'Visi dan Misi', 'text' => 'Arah dan komitmen organisasi.', 'route' => 'tentang.visi-misi'],
+                        ['title' => 'Sejarah', 'text' => 'Perjalanan dan tonggak berdirinya FPUI.', 'route' => 'tentang.sejarah'],
+                        ['title' => 'Struktur Organisasi', 'text' => 'Susunan kepengurusan dan tata kelola.', 'route' => 'tentang.struktur-organisasi'],
+                        ['title' => 'Hubungi Kami', 'text' => 'Kanal komunikasi dan sekretariat resmi.', 'route' => 'kontak.hubungi-kami'],
+                    ] as $link)
+                        <a href="{{ route($link['route']) }}"
+                            class="group flex items-start justify-between gap-4 bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:border-emerald-200 hover:shadow-md transition">
+                            <span>
+                                <span class="block font-semibold text-gray-900 group-hover:text-emerald-700 transition">
+                                    {{ $link['title'] }}
+                                </span>
+                                <span class="block text-sm text-gray-600 mt-1 leading-relaxed">
+                                    {{ $link['text'] }}
+                                </span>
+                            </span>
+                            <span class="text-emerald-600 group-hover:translate-x-1 transition" aria-hidden="true">→</span>
+                        </a>
+                    @endforeach
+
+                </div>
 
             </div>
         </section>

@@ -254,8 +254,8 @@ return [
             ],
             [
                 'number' => '06',
-                'title' => 'Sertifikasi dan Akreditasi',
-                'description' => 'Mendukung peningkatan kompetensi dan pengakuan profesi pustakawan melalui skema sertifikasi serta pendampingan akreditasi perpustakaan.',
+                'title' => 'Sertifikasi Profesi Pustakawan',
+                'description' => 'Mendukung peningkatan kompetensi dan pengakuan profesi pustakawan melalui sertifikasi profesi yang diakui secara nasional.',
             ],
         ],
     ],
@@ -387,7 +387,6 @@ return [
 
     'hubungi_kami' => [
         'mode' => 'hubungi-kami',
-        'hours' => 'Senin – Jumat, 08.00 – 16.00 WIB',
         'channels' => [
             [
                 'title' => 'Pertanyaan Umum',

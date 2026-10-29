@@ -153,21 +153,6 @@ return [
         'content' => 'keanggotaan',
     ],
 
-    'organisasi.sekretariat' => [
-        'path' => 'organisasi/sekretariat',
-        'title' => 'Sekretariat FPUI',
-        'meta' => 'Alamat, kontak, dan jam layanan Sekretariat Forum Perpustakaan Umum Indonesia.',
-        'heading' => 'Sekretariat',
-        'subheading' => 'Layanan administrasi dan korespondensi resmi Forum Perpustakaan Umum Indonesia.',
-        'eyebrow' => 'Organisasi',
-        'breadcrumb' => [
-            ['label' => 'Organisasi'],
-            ['label' => 'Sekretariat'],
-        ],
-        'view' => 'public.pages.kontak',
-        'content' => 'sekretariat',
-    ],
-
     'program.program-kerja' => [
         'path' => 'program/program-kerja',
         'title' => 'Program Kerja FPUI 2025–2028',

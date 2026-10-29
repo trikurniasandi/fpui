@@ -27,7 +27,7 @@
 
 <div class="space-y-28">
     
-    <section class="max-w-7xl mx-auto px-6 pt-16">
+    <section class="max-w-7xl mx-auto px-6 pt-8">
      @if($heroItems->isNotEmpty())
         <section 
             x-cloak

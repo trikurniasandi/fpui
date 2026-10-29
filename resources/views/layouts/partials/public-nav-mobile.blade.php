@@ -3,6 +3,17 @@
         $children = $item['children'] ?? [];
         $patterns = (array) ($item['active_pattern'] ?? []);
         $isActive = !empty($patterns) && request()->routeIs(...$patterns);
+
+        // Beberapa menu memakai route yang sama dengan parameter berbeda
+        // (mis. detail departemen). Cocokkan parameternya agar hanya item
+        // yang benar-benar sedang dibuka yang ditandai aktif.
+        foreach ($item['params'] ?? [] as $paramName => $paramValue) {
+            if (! $isActive) {
+                break;
+            }
+
+            $isActive = (string) request()->route($paramName) === (string) $paramValue;
+        }
     @endphp
 
     @if (empty($children))

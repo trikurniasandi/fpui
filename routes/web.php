@@ -93,6 +93,7 @@ Route::get('/instagram/feed/{instagram}', [InstagramController::class, 'feedAcco
 |--------------------------------------------------------------------------
 */
 Route::redirect('/about', '/tentang/profil', 301);
+Route::redirect('/organisasi/sekretariat', '/kontak/sekretariat', 301);
 Route::redirect('/profile/history', '/tentang/sejarah', 301);
 Route::redirect('/profile/organization-structure', '/tentang/struktur-organisasi', 301);
 Route::redirect('/program', '/program/program-kerja', 301);

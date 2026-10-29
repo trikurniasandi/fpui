@@ -28,7 +28,7 @@
             <a href="{{ route('home') }}" class="flex items-center gap-3 group select-none shrink-0">
                 @if (isset($organization) && $organization && $organization->logo)
                     <img src="{{ asset('storage/' . $organization->logo) }}" alt="{{ $organization->name }}"
-                        class="h-10 sm:h-11 object-contain flex-shrink-0">
+                        class="block h-12 sm:h-14 w-auto object-contain flex-shrink-0">
                 @else
                     <span
                         class="text-2xl sm:text-3xl font-extrabold uppercase tracking-widest text-gray-900 group-hover:text-emerald-700 transition drop-shadow-sm">
@@ -36,7 +36,7 @@
                     </span>
                 @endif
 
-                <div class="hidden xl:flex flex-col leading-tight mt-[2px]">
+                <div class="hidden xl:flex flex-col justify-center leading-tight">
                     <div class="text-[11px] text-gray-500 group-hover:text-emerald-600 transition">
                         Forum Perpustakaan
                     </div>
@@ -112,45 +112,88 @@
     </main>
 
     <footer class="border-t bg-white mt-20">
-        <div class="max-w-7xl mx-auto px-6 py-10 grid gap-8 md:grid-cols-3 text-sm text-gray-500">
 
-            <div>
+        @php
+            $organizationAddress = collect([
+                $organization?->address,
+                $organization?->city,
+                $organization?->province,
+                $organization?->postal_code,
+            ])->filter()->implode(', ');
+        @endphp
+
+        <div class="max-w-7xl mx-auto px-6 py-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-5 text-sm text-gray-500">
+
+            <div class="sm:col-span-2 lg:col-span-1">
+                <a href="{{ route('home') }}" class="inline-flex items-center gap-3 mb-4 group">
+                    @if (isset($organization) && $organization && $organization->logo)
+                        <img src="{{ asset('storage/' . $organization->logo) }}" alt="{{ $organization->name }}"
+                            class="block h-36 w-auto object-contain">
+                    @else
+                        <span
+                            class="text-2xl font-extrabold uppercase tracking-widest text-gray-900 group-hover:text-emerald-700 transition">
+                            FPUI
+                        </span>
+                    @endif
+                </a>
+
                 <div class="text-base font-semibold text-gray-800 mb-2">
                     {{ $organization->name ?? 'Forum Perpustakaan Umum Indonesia' }}
                 </div>
-                <p class="leading-relaxed">
-                    Wadah kolaborasi nasional untuk memperkuat peran perpustakaan umum di Indonesia.
-                </p>
+                @if ($organizationAddress)
+                    <p class="leading-relaxed">{{ $organizationAddress }}</p>
+                @endif
             </div>
 
             <div>
-                <div class="text-base font-semibold text-gray-800 mb-2">Tautan</div>
-                <ul class="space-y-1">
-                    <li><a href="{{ route('tentang.profil') }}" class="hover:text-emerald-700">Profil</a></li>
-                    <li><a href="{{ route('organisasi.keanggotaan') }}" class="hover:text-emerald-700">Keanggotaan</a></li>
-                    <li><a href="{{ route('program.program-kerja') }}" class="hover:text-emerald-700">Program Kerja</a></li>
-                    <li><a href="{{ route('kontak.hubungi-kami') }}" class="hover:text-emerald-700">Hubungi Kami</a></li>
+                <div class="text-sm font-semibold text-gray-800 uppercase tracking-wide mb-4">Jelajahi</div>
+                <ul class="space-y-2">
+                    <li><a href="{{ route('tentang.profil') }}" class="hover:text-emerald-700 transition">Profil</a></li>
+                    <li><a href="{{ route('tentang.sejarah') }}" class="hover:text-emerald-700 transition">Sejarah</a></li>
+                    <li><a href="{{ route('tentang.visi-misi') }}" class="hover:text-emerald-700 transition">Visi dan Misi</a></li>
+                    <li><a href="{{ route('tentang.struktur-organisasi') }}" class="hover:text-emerald-700 transition">Struktur Organisasi</a></li>
                 </ul>
             </div>
 
             <div>
-                <div class="text-base font-semibold text-gray-800 mb-2">Kontak</div>
-                <ul class="space-y-1">
+                <div class="text-sm font-semibold text-gray-800 uppercase tracking-wide mb-4">Program</div>
+                <ul class="space-y-2">
+                    <li><a href="{{ route('program.program-kerja') }}" class="hover:text-emerald-700 transition">Program Kerja</a></li>
+                    <li><a href="{{ route('program.agenda') }}" class="hover:text-emerald-700 transition">Agenda</a></li>
+                    <li><a href="{{ route('program.kegiatan') }}" class="hover:text-emerald-700 transition">Kegiatan</a></li>
+                    <li><a href="{{ route('program.kerja-sama') }}" class="hover:text-emerald-700 transition">Kerja Sama</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <div class="text-sm font-semibold text-gray-800 uppercase tracking-wide mb-4">Publikasi</div>
+                <ul class="space-y-2">
+                    <li><a href="{{ route('news.index') }}" class="hover:text-emerald-700 transition">Berita</a></li>
+                    <li><a href="{{ route('article.index') }}" class="hover:text-emerald-700 transition">Artikel</a></li>
+                    <li><a href="{{ route('bulletin.index') }}" class="hover:text-emerald-700 transition">Buletin</a></li>
+                    <li><a href="{{ route('photo.index') }}" class="hover:text-emerald-700 transition">Galeri Foto</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <div class="text-sm font-semibold text-gray-800 uppercase tracking-wide mb-4">Jangkau Kami</div>
+                <ul class="space-y-2">
                     @if (!empty($organization?->email))
-                        <li><a href="mailto:{{ $organization->email }}" class="hover:text-emerald-700">{{ $organization->email }}</a></li>
+                        <li><a href="mailto:{{ $organization->email }}" class="hover:text-emerald-700 transition">{{ $organization->email }}</a></li>
                     @endif
                     @if (!empty($organization?->phone))
                         <li>{{ $organization->phone }}</li>
                     @endif
-                    <li><a href="{{ route('kontak.sekretariat') }}" class="hover:text-emerald-700">Sekretariat FPUI</a></li>
+                    <li><a href="{{ route('kontak.sekretariat') }}" class="hover:text-emerald-700 transition">Sekretariat FPUI</a></li>
+                    <li><a href="{{ route('kontak.hubungi-kami') }}" class="hover:text-emerald-700 transition">Hubungi Kami</a></li>
                 </ul>
             </div>
 
         </div>
 
         <div class="border-t">
-            <div class="max-w-7xl mx-auto px-6 py-5 text-center text-xs text-gray-500">
-                © {{ date('Y') }} Forum Perpustakaan Umum Indonesia. All rights reserved.
+            <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-center text-center gap-2 text-xs text-gray-500">
+                <p>© {{ date('Y') }} Forum Perpustakaan Umum Indonesia. All rights reserved.</p>
             </div>
         </div>
     </footer>

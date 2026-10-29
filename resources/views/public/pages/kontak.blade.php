@@ -27,15 +27,16 @@
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-semibold text-gray-900 text-center mb-8">Kontak Resmi</h2>
-
-                    <x-contact-cards :organization="$organization" />
-
-                    <div class="mt-10 rounded-2xl bg-emerald-50 border border-emerald-100 p-6 text-center">
+                    <div class="max-w-3xl mx-auto rounded-2xl bg-emerald-50 border border-emerald-100 p-8 text-center">
+                        <h2 class="text-2xl font-semibold text-emerald-900 mb-3">Kontak Resmi</h2>
                         <p class="text-sm text-emerald-800 leading-relaxed">
-                            Jam layanan: {{ $content['hours'] ?? 'Senin – Jumat, 08.00 – 16.00 WIB' }}.
-                            Kami akan merespons pesan pada hari kerja.
+                            Alamat, telepon, email, jam layanan, dan peta lokasi tersedia pada halaman
+                            Sekretariat FPUI. Kami akan merespons pesan pada hari kerja.
                         </p>
+                        <a href="{{ route('kontak.sekretariat') }}"
+                            class="inline-flex mt-6 px-5 py-2.5 rounded-lg bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 transition">
+                            Lihat Detail Kontak Sekretariat
+                        </a>
                     </div>
                 </section>
                 @break
@@ -45,7 +46,12 @@
                     <h2 class="text-2xl font-semibold text-gray-900 mb-3">Kanal Resmi FPUI</h2>
                     <p class="text-gray-600 mb-10">{{ $content['note'] ?? '' }}</p>
 
-                    <x-contact-cards :organization="$organization" :showSocial="true" />
+                    @if ($organization && ($organization->instagram || $organization->facebook || $organization->youtube))
+                        <x-contact-cards :organization="$organization" :showContact="false" :showSocial="true" />
+                    @else
+                        <x-empty-state title="Kanal media sosial belum tersedia"
+                            message="Tautan media sosial akan ditampilkan setelah dilengkapi melalui dashboard admin." />
+                    @endif
                 </section>
                 @break
 
@@ -80,10 +86,12 @@
         @endswitch
 
         <div class="flex flex-wrap justify-center gap-3 pt-2">
-            <a href="{{ route('kontak.hubungi-kami') }}"
-                class="inline-flex px-5 py-2.5 rounded-lg bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 transition">
-                Hubungi Kami
-            </a>
+            @if (($content['mode'] ?? 'sekretariat') !== 'hubungi-kami')
+                <a href="{{ route('kontak.hubungi-kami') }}"
+                    class="inline-flex px-5 py-2.5 rounded-lg bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 transition">
+                    Hubungi Kami
+                </a>
+            @endif
             <a href="{{ route('kontak.kerja-sama') }}"
                 class="inline-flex px-5 py-2.5 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
                 Ajukan Kerja Sama

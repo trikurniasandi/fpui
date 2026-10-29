@@ -115,11 +115,6 @@ return [
                 'route' => 'organisasi.keanggotaan',
                 'active_pattern' => 'organisasi.keanggotaan',
             ],
-            [
-                'label' => 'Sekretariat',
-                'route' => 'organisasi.sekretariat',
-                'active_pattern' => 'organisasi.sekretariat',
-            ],
         ],
     ],
 

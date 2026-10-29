@@ -1,66 +1,69 @@
 @props([
     'organization' => null,
+    'showContact' => true,
     'showSocial' => false,
     'showMap' => false,
 ])
 
 @if ($organization)
-    <div class="grid md:grid-cols-3 gap-8 text-center">
+    @if ($showContact)
+        <div class="grid md:grid-cols-3 gap-8 text-center">
 
-        @if ($organization->address || $organization->city || $organization->province)
-            <div class="bg-white p-8 rounded-2xl border shadow-sm hover:shadow-md transition space-y-4">
-                <div class="w-14 h-14 mx-auto rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor"
-                        stroke-width="1.8" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 21s-6-5.686-6-10a6 6 0 1112 0c0 4.314-6 10-6 10z" />
-                        <circle cx="12" cy="11" r="2.5" />
-                    </svg>
+            @if ($organization->address || $organization->city || $organization->province)
+                <div class="bg-white p-8 rounded-2xl border shadow-sm hover:shadow-md transition space-y-4">
+                    <div class="w-14 h-14 mx-auto rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor"
+                            stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 21s-6-5.686-6-10a6 6 0 1112 0c0 4.314-6 10-6 10z" />
+                            <circle cx="12" cy="11" r="2.5" />
+                        </svg>
+                    </div>
+                    <h4 class="font-semibold text-gray-900">Alamat</h4>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        {{ $organization->address }}<br>
+                        {{ $organization->city }}, {{ $organization->province }}
+                        {{ $organization->postal_code }}
+                    </p>
                 </div>
-                <h4 class="font-semibold text-gray-900">Alamat</h4>
-                <p class="text-sm text-gray-600 leading-relaxed">
-                    {{ $organization->address }}<br>
-                    {{ $organization->city }}, {{ $organization->province }}
-                    {{ $organization->postal_code }}
-                </p>
-            </div>
-        @endif
+            @endif
 
-        @if ($organization->phone)
-            <div class="bg-white p-8 rounded-2xl border shadow-sm hover:shadow-md transition space-y-4">
-                <div class="w-14 h-14 mx-auto rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor"
-                        stroke-width="1.8" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M2 5a2 2 0 012-2h2.5a1 1 0 01.95.684l1 3a1 1 0 01-.25 1.022l-1.2 1.2a16 16 0 006.586 6.586l1.2-1.2a1 1 0 011.022-.25l3 1A1 1 0 0119.5 17.5V20a2 2 0 01-2 2h-1C7.94 22 2 16.06 2 8.5V7a2 2 0 012-2z" />
-                    </svg>
+            @if ($organization->phone)
+                <div class="bg-white p-8 rounded-2xl border shadow-sm hover:shadow-md transition space-y-4">
+                    <div class="w-14 h-14 mx-auto rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor"
+                            stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M2 5a2 2 0 012-2h2.5a1 1 0 01.95.684l1 3a1 1 0 01-.25 1.022l-1.2 1.2a16 16 0 006.586 6.586l1.2-1.2a1 1 0 011.022-.25l3 1A1 1 0 0119.5 17.5V20a2 2 0 01-2 2h-1C7.94 22 2 16.06 2 8.5V7a2 2 0 012-2z" />
+                        </svg>
+                    </div>
+                    <h4 class="font-semibold text-gray-900">Telepon</h4>
+                    <a href="tel:{{ preg_replace('/[^0-9]/', '', $organization->phone) }}"
+                        class="text-emerald-600 hover:text-emerald-700 transition">
+                        {{ $organization->phone }}
+                    </a>
                 </div>
-                <h4 class="font-semibold text-gray-900">Telepon</h4>
-                <a href="tel:{{ preg_replace('/[^0-9]/', '', $organization->phone) }}"
-                    class="text-emerald-600 hover:text-emerald-700 transition">
-                    {{ $organization->phone }}
-                </a>
-            </div>
-        @endif
+            @endif
 
-        @if ($organization->email)
-            <div class="bg-white p-8 rounded-2xl border shadow-sm hover:shadow-md transition space-y-4">
-                <div class="w-14 h-14 mx-auto rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor"
-                        stroke-width="1.8" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M3 8l9 6 9-6M4 6h16a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1z" />
-                    </svg>
+            @if ($organization->email)
+                <div class="bg-white p-8 rounded-2xl border shadow-sm hover:shadow-md transition space-y-4">
+                    <div class="w-14 h-14 mx-auto rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor"
+                            stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3 8l9 6 9-6M4 6h16a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1z" />
+                        </svg>
+                    </div>
+                    <h4 class="font-semibold text-gray-900">Email</h4>
+                    <a href="mailto:{{ $organization->email }}"
+                        class="text-emerald-600 hover:text-emerald-700 transition break-all">
+                        {{ $organization->email }}
+                    </a>
                 </div>
-                <h4 class="font-semibold text-gray-900">Email</h4>
-                <a href="mailto:{{ $organization->email }}"
-                    class="text-emerald-600 hover:text-emerald-700 transition break-all">
-                    {{ $organization->email }}
-                </a>
-            </div>
-        @endif
+            @endif
 
-    </div>
+        </div>
+    @endif
 
     @if ($showSocial)
         <div class="mt-12 flex justify-center gap-8">
