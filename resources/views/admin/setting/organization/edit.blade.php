@@ -95,7 +95,7 @@
                     <div>
                         <label class="block text-sm font-medium mb-1">Visi</label>
 
-                        <x-tinymce name="vission" id="editor" :value="old('vission', $profile->vission)" />
+                        <x-tinymce name="vision" id="editor" :value="old('vision', $profile->vision)" />
 
                     </div>
 

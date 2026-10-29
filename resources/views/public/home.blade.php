@@ -6,6 +6,25 @@
 
 @section('content')
 
+@php
+    $publicationUrl = function ($item) {
+        $meta = config('publications.' . $item->type);
+
+        if (!$meta) {
+            return route('home');
+        }
+
+        return $meta['has_detail']
+            ? route($meta['route_name'] . '.show', $item->slug)
+            : route($meta['route_name'] . '.index');
+    };
+
+    $publicationLabel = fn ($item) => config(
+        'publications.' . $item->type . '.label',
+        ucfirst(str_replace('_', ' ', (string) $item->type))
+    );
+@endphp
+
 <div class="space-y-28">
     
     <section class="max-w-7xl mx-auto px-6 pt-16">
@@ -56,7 +75,7 @@
                                     {{ $item->type === 'news'
                                         ? 'bg-blue-500/20 text-blue-200'
                                         : 'bg-emerald-500/20 text-emerald-200' }}">
-                                    {{ $item->type === 'news' ? 'Berita' : 'Artikel' }}
+                                    {{ $publicationLabel($item) }}
                                 </span>
                             @endif
 
@@ -75,9 +94,7 @@
                             </p>
 
                             @if($item->source === 'publication')
-                                <a href="{{ $item->type === 'news'
-                                            ? route('news.show', $item->slug)
-                                            : route('article.show', $item->slug) }}"
+                                <a href="{{ $publicationUrl($item) }}"
                                 class="inline-flex items-center gap-2 px-6 py-3 font-semibold rounded-xl transition
                                     {{ $item->type === 'news'
                                         ? 'bg-blue-600 hover:bg-blue-700'
@@ -144,7 +161,7 @@
                         Wadah kolaborasi nasional untuk memperkuat peran perpustakaan umum di Indonesia.
                     </p>
 
-                    <a href="{{ route('public.about') }}"
+                    <a href="{{ route('tentang.profil') }}"
                         class="inline-flex items-center gap-2 
                             px-6 py-3 bg-emerald-600 font-semibold 
                             rounded-xl hover:bg-emerald-700 transition">
@@ -278,13 +295,11 @@
                             {{ $pub->type === 'news'
                                 ? 'text-blue-600'
                                 : 'text-emerald-600' }}">
-                            {{ strtoupper($pub->type) }}
+                            {{ Str::upper($publicationLabel($pub)) }}
                         </span>
 
                         <h3 class="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
-                            <a href="{{ $pub->type === 'news'
-                                        ? route('news.show', $pub->slug)
-                                        : route('article.show', $pub->slug) }}"
+                            <a href="{{ $publicationUrl($pub) }}"
                                class="hover:text-emerald-600 transition">
                                 {{ $pub->title }}
                             </a>
@@ -334,7 +349,7 @@
                     perpustakaan umum yang inklusif dan inovatif.
                 </p>
 
-                <a href="{{ route('public.about') }}"
+                <a href="{{ route('tentang.profil') }}"
                 class="inline-flex px-8 py-3 bg-white text-emerald-700 font-semibold rounded-xl hover:bg-gray-100 transition">
                     Tentang Kami
                 </a>

@@ -138,6 +138,7 @@
                                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
+                    </div>
                 </div>
 
                 <div class="flex justify-end gap-3 pt-6 border-t dark:border-gray-700">

@@ -1,57 +1,83 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminArticleController;
 use App\Http\Controllers\Admin\AdminBannerController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminDocumentController;
 use App\Http\Controllers\Admin\AdminInstagramController;
-use App\Http\Controllers\Admin\AdminNewsController;
 use App\Http\Controllers\Admin\AdminOrganizationController;
+use App\Http\Controllers\Admin\AdminPhotoController;
+use App\Http\Controllers\Admin\AdminPublicationController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Auth\ForcePasswordController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Public\ArticleController;
+use App\Http\Controllers\Public\DocumentController;
 use App\Http\Controllers\Public\InstagramController;
-use App\Http\Controllers\Public\NewsController;
+use App\Http\Controllers\Public\PageController;
+use App\Http\Controllers\Public\PhotoController;
+use App\Http\Controllers\Public\PublicationController;
 use App\Http\Controllers\Public\PublicController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| Halaman publik, autentikasi, dan dashboard admin.
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get('/', [PublicController::class, 'index'])->name('home');
-Route::get('/about', [PublicController::class, 'about'])->name('public.about');
 
-Route::prefix('profile')->name('profile.')->group(function () {
-    Route::get('/organization-structure', [PublicController::class, 'organization_structure'])->name('structure');
-    Route::get('/history', [PublicController::class, 'history'])->name('history');
-});
+/*
+|--------------------------------------------------------------------------
+| Halaman statis (config/public_pages.php)
+|--------------------------------------------------------------------------
+*/
+foreach (config('public_pages') as $key => $page) {
+    Route::get($page['path'], [PageController::class, 'show'])
+        ->defaults('page', $key)
+        ->name($key);
+}
 
-Route::prefix('article')->name('article.')->group(function () {
-    Route::get('/', [ArticleController::class, 'index'])->name('index');
-    Route::get('/{slug}', [ArticleController::class, 'show'])->name('show');
-});
+Route::get('organisasi/departemen/{departemen}', [PageController::class, 'department'])
+    ->name('organisasi.departemen.show');
 
-Route::prefix('news')->name('news.')->group(function () {
-    Route::get('/', [NewsController::class, 'index'])->name('index');
-    Route::get('/{slug}', [NewsController::class, 'show'])->name('show');
-});
+/*
+|--------------------------------------------------------------------------
+| Publikasi (config/publications.php)
+|--------------------------------------------------------------------------
+*/
+foreach (config('publications') as $type => $meta) {
+    Route::prefix($meta['public_path'])
+        ->name($meta['route_name'] . '.')
+        ->group(function () use ($type, $meta) {
+            Route::get('/', [PublicationController::class, 'index'])
+                ->defaults('type', $type)
+                ->name('index');
 
-Route::prefix('program')->name('program.')->group(function () {
-    Route::get('/', [PublicController::class, 'programs'])->name('index');
-});
+            if ($meta['has_detail']) {
+                Route::get('/{slug}', [PublicationController::class, 'show'])
+                    ->defaults('type', $type)
+                    ->name('show');
+            }
+        });
+}
+
+Route::get('publikasi/galeri-foto', [PhotoController::class, 'index'])->name('photo.index');
+
+/*
+|--------------------------------------------------------------------------
+| Informasi / dokumen (config/documents.php)
+|--------------------------------------------------------------------------
+*/
+foreach (config('documents') as $type => $meta) {
+    Route::get($meta['path'], [DocumentController::class, 'index'])
+        ->defaults('type', $type)
+        ->name($meta['route_name']);
+}
 
 Route::get('/instagram/feed', [InstagramController::class, 'feed'])
     ->middleware('throttle:60,1')
@@ -60,6 +86,21 @@ Route::get('/instagram/feed', [InstagramController::class, 'feed'])
 Route::get('/instagram/feed/{instagram}', [InstagramController::class, 'feedAccount'])
     ->middleware('throttle:60,1')
     ->name('instagram.feed.account');
+
+/*
+|--------------------------------------------------------------------------
+| Redirect URL lama (301)
+|--------------------------------------------------------------------------
+*/
+Route::redirect('/about', '/tentang/profil', 301);
+Route::redirect('/profile/history', '/tentang/sejarah', 301);
+Route::redirect('/profile/organization-structure', '/tentang/struktur-organisasi', 301);
+Route::redirect('/program', '/program/program-kerja', 301);
+Route::redirect('/article', '/publikasi/artikel', 301);
+Route::redirect('/news', '/publikasi/berita', 301);
+
+Route::get('/article/{slug}', fn (string $slug) => redirect()->route('article.show', ['slug' => $slug], 301));
+Route::get('/news/{slug}', fn (string $slug) => redirect()->route('news.show', ['slug' => $slug], 301));
 
 Route::middleware('auth')->group(function () {
 
@@ -80,23 +121,40 @@ Route::middleware(['auth', 'verified', 'role:admin,user', 'force.password'])
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-        Route::prefix('article')->group(function () {
-            Route::get('/', [AdminArticleController::class, 'index'])->name('article.index');
-            Route::get('/create', [AdminArticleController::class, 'create'])->name('article.create');
-            Route::post('/', [AdminArticleController::class, 'store'])->name('article.store');
-            Route::get('/{id}/edit', [AdminArticleController::class, 'edit'])->name('article.edit');
-            Route::put('/{id}', [AdminArticleController::class, 'update'])->name('article.update');
-            Route::delete('/{id}', [AdminArticleController::class, 'destroy'])->name('article.destroy');
-        });
+        /*
+        |------------------------------------------------------------------
+        | Publikasi (semua tipe memakai AdminPublicationController)
+        |------------------------------------------------------------------
+        */
+        foreach (config('publications') as $type => $meta) {
+            $routeBase = Str::after($meta['admin_route'], 'admin.');
 
-        Route::prefix('news')->group(function () {
-            Route::get('/', [AdminNewsController::class, 'index'])->name('news.index');
-            Route::get('/create', [AdminNewsController::class, 'create'])->name('news.create');
-            Route::post('/', [AdminNewsController::class, 'store'])->name('news.store');
-            Route::get('/{id}/edit', [AdminNewsController::class, 'edit'])->name('news.edit');
-            Route::put('/{id}', [AdminNewsController::class, 'update'])->name('news.update');
-            Route::delete('/{id}', [AdminNewsController::class, 'destroy'])->name('news.destroy');
-        });
+            Route::prefix($meta['admin_path'])->group(function () use ($type, $routeBase) {
+                Route::get('/', [AdminPublicationController::class, 'index'])
+                    ->defaults('type', $type)
+                    ->name($routeBase . '.index');
+
+                Route::get('/create', [AdminPublicationController::class, 'create'])
+                    ->defaults('type', $type)
+                    ->name($routeBase . '.create');
+
+                Route::post('/', [AdminPublicationController::class, 'store'])
+                    ->defaults('type', $type)
+                    ->name($routeBase . '.store');
+
+                Route::get('/{id}/edit', [AdminPublicationController::class, 'edit'])
+                    ->defaults('type', $type)
+                    ->name($routeBase . '.edit');
+
+                Route::put('/{id}', [AdminPublicationController::class, 'update'])
+                    ->defaults('type', $type)
+                    ->name($routeBase . '.update');
+
+                Route::delete('/{id}', [AdminPublicationController::class, 'destroy'])
+                    ->defaults('type', $type)
+                    ->name($routeBase . '.destroy');
+            });
+        }
 
         Route::middleware(['role:admin'])->group(function () {
 
@@ -108,6 +166,9 @@ Route::middleware(['auth', 'verified', 'role:admin,user', 'force.password'])
                 Route::put('/{id}', [AdminBannerController::class, 'update'])->name('banner.update');
                 Route::delete('{id}', [AdminBannerController::class, 'destroy'])->name('banner.destroy');
             });
+
+            Route::resource('document', AdminDocumentController::class)->except(['show']);
+            Route::resource('photo', AdminPhotoController::class)->except(['show']);
 
             Route::prefix('settings')
                 ->name('settings.')

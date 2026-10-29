@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Category;
+use App\Models\Document;
 use App\Models\OrganizationProfile;
+use App\Models\Photo;
 use App\Models\Publication;
-use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -15,17 +16,24 @@ class AdminController extends Controller
     {
         $totalBanners = Banner::count();
 
-        $totalArticles = Publication::where('type', 'article')
-        ->count();
+        $typeCounts = collect(config('publications'))
+            ->mapWithKeys(fn ($meta, $type) => [$type => Publication::ofType($type)->count()]);
 
-        $totalNews = Publication::where('type', 'news')
-        ->count();
+        $totalPublications = $typeCounts->sum();
+
+        $totalArticles = $typeCounts['article'] ?? 0;
+
+        $totalNews = $typeCounts['news'] ?? 0;
 
         $totalPublished = Publication::where('status', 'published')
-        ->count();
+            ->count();
 
         $totalDraft = Publication::where('status', 'draft')
-        ->count();
+            ->count();
+
+        $totalDocuments = Document::count();
+
+        $totalPhotos = Photo::count();
 
         $totalCategories = Category::count();
 
@@ -33,10 +41,14 @@ class AdminController extends Controller
 
         return view('admin.dashboard', compact(
             'totalBanners',
+            'typeCounts',
+            'totalPublications',
             'totalArticles',
             'totalNews',
             'totalPublished',
             'totalDraft',
+            'totalDocuments',
+            'totalPhotos',
             'totalCategories',
             'organization'
         ));

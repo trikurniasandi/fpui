@@ -13,28 +13,28 @@
                     Selamat Datang, {{ auth()->user()->name }} !!
                 </h3>
                 <p class="text-emerald-100">
-                    Kelola artikel, berita, kategori, Pengguna, dan profil organisasi melalui dashboard ini.
+                    Kelola publikasi, dokumen, galeri foto, banner, pengguna, dan profil organisasi melalui dashboard ini.
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
                 <div class="bg-white p-6 rounded-2xl shadow-sm border">
-                    <p class="text-sm text-gray-500">Total Banner</p>
+                    <p class="text-sm text-gray-500">Total Publikasi</p>
                     <h3 class="text-3xl font-bold text-gray-900 mt-2">
-                        {{ $totalBanners }}
+                        {{ $totalPublications }}
                     </h3>
                 </div>
 
                 <div class="bg-white p-6 rounded-2xl shadow-sm border">
-                    <p class="text-sm text-gray-500">Total Artikel</p>
+                    <p class="text-sm text-gray-500">Artikel</p>
                     <h3 class="text-3xl font-bold text-gray-900 mt-2">
                         {{ $totalArticles }}
                     </h3>
                 </div>
 
                 <div class="bg-white p-6 rounded-2xl shadow-sm border">
-                    <p class="text-sm text-gray-500">Total Berita</p>
+                    <p class="text-sm text-gray-500">Berita</p>
                     <h3 class="text-3xl font-bold text-gray-900 mt-2">
                         {{ $totalNews }}
                     </h3>
@@ -53,6 +53,27 @@
                             </h3>
                         </div>
                     </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border">
+                    <p class="text-sm text-gray-500">Dokumen</p>
+                    <h3 class="text-3xl font-bold text-gray-900 mt-2">
+                        {{ $totalDocuments }}
+                    </h3>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border">
+                    <p class="text-sm text-gray-500">Foto Galeri</p>
+                    <h3 class="text-3xl font-bold text-gray-900 mt-2">
+                        {{ $totalPhotos }}
+                    </h3>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border">
+                    <p class="text-sm text-gray-500">Banner</p>
+                    <h3 class="text-3xl font-bold text-gray-900 mt-2">
+                        {{ $totalBanners }}
+                    </h3>
                 </div>
 
                 <div class="bg-white p-6 rounded-2xl shadow-sm border">
@@ -112,12 +133,6 @@
 
                 <div class="flex flex-wrap gap-4">
 
-                    @if($role === 'admin')
-                        <a href="{{ route('admin.banner.create') }}"
-                            class="px-5 py-2 bg-amber-500 text-white rounded-lg text-sm font-medium hover:bg-amber-600 transition">
-                            + Tambah Banner
-                        </a>
-                    @endif
                     @if(in_array($role, ['admin', 'user']))
                         <a href="{{ route('admin.article.create') }}"
                             class="px-5 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700 transition">
@@ -128,9 +143,44 @@
                             class="px-5 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition">
                             + Tambah Berita
                         </a>
+
+                        <a href="{{ route('admin.best-practice.create') }}"
+                            class="px-5 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700 transition">
+                            + Tambah Praktik Terbaik
+                        </a>
+
+                        <a href="{{ route('admin.bulletin.create') }}"
+                            class="px-5 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition">
+                            + Tambah Buletin
+                        </a>
+
+                        <a href="{{ route('admin.infographic.create') }}"
+                            class="px-5 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition">
+                            + Tambah Infografis
+                        </a>
+
+                        <a href="{{ route('admin.video.create') }}"
+                            class="px-5 py-2 bg-rose-600 text-white rounded-lg text-sm font-medium hover:bg-rose-700 transition">
+                            + Tambah Video
+                        </a>
                     @endif
 
                     @if($role === 'admin')
+                        <a href="{{ route('admin.banner.create') }}"
+                            class="px-5 py-2 bg-amber-500 text-white rounded-lg text-sm font-medium hover:bg-amber-600 transition">
+                            + Tambah Banner
+                        </a>
+
+                        <a href="{{ route('admin.document.create') }}"
+                            class="px-5 py-2 bg-cyan-600 text-white rounded-lg text-sm font-medium hover:bg-cyan-700 transition">
+                            + Tambah Dokumen
+                        </a>
+
+                        <a href="{{ route('admin.photo.create') }}"
+                            class="px-5 py-2 bg-pink-600 text-white rounded-lg text-sm font-medium hover:bg-pink-700 transition">
+                            + Tambah Foto
+                        </a>
+
                         <a href="{{ route('admin.settings.category.index') }}"
                             class="px-5 py-2 bg-gray-800 text-white rounded-lg text-sm font-medium hover:bg-gray-900 transition">
                             Kelola Kategori

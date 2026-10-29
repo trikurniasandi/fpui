@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use SebastianBergmann\CodeUnit\FunctionUnit;
-use function PHPUnit\Framework\returnArgument;
 
 class Publication extends Model
 {
@@ -21,8 +19,14 @@ class Publication extends Model
         'category_id',
         'thumbnail',
         'attachment',
+        'video_url',
         'show_on_banner',
         'expired_at',
+    ];
+
+    protected $casts = [
+        'show_on_banner' => 'boolean',
+        'expired_at' => 'datetime',
     ];
 
     public function author()
@@ -33,5 +37,15 @@ class Publication extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('status', 'published');
+    }
+
+    public function scopeOfType($query, string $type)
+    {
+        return $query->where('type', $type);
     }
 }
