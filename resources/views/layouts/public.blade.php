@@ -37,10 +37,10 @@
                 @endif
 
                 <div class="hidden xl:flex flex-col justify-center leading-tight">
-                    <div class="text-[11px] text-gray-500 group-hover:text-emerald-600 transition">
+                    <div class="text-sm font-bold text-gray-800 group-hover:text-emerald-700 transition">
                         Forum Perpustakaan
                     </div>
-                    <div class="text-[11px] text-gray-500 group-hover:text-emerald-600 transition">
+                    <div class="text-sm font-bold text-gray-800 group-hover:text-emerald-700 transition">
                         Umum Indonesia
                     </div>
                 </div>
@@ -137,8 +137,8 @@
                     @endif
                 </a>
 
-                <div class="text-base font-semibold text-gray-800 mb-2">
-                    {{ $organization->name ?? 'Forum Perpustakaan Umum Indonesia' }}
+                <div class="text-sm font-bold text-gray-800 leading-tight mb-2">
+                    Forum Perpustakaan<br>Umum Indonesia
                 </div>
                 @if ($organizationAddress)
                     <p class="leading-relaxed">{{ $organizationAddress }}</p>
