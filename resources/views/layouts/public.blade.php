@@ -63,7 +63,7 @@
                 @else
                     <a href="{{ route('login') }}"
                         class="whitespace-nowrap inline-flex items-center rounded-md border border-emerald-600 px-4 py-1.5 text-emerald-700 hover:bg-emerald-600 hover:text-white transition">
-                        Login
+                        Masuk
                     </a>
                 @endauth
             </nav>
@@ -98,7 +98,7 @@
                     @else
                         <a href="{{ route('login') }}"
                             class="inline-flex justify-center w-full rounded-md bg-emerald-600 px-4 py-2 text-white">
-                            Login
+                            Masuk
                         </a>
                     @endauth
                 </div>
