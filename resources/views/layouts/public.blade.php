@@ -122,30 +122,37 @@
             ])->filter()->implode(', ');
         @endphp
 
-        <div class="max-w-7xl mx-auto px-6 py-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-5 text-sm text-gray-500">
+        <div class="max-w-7xl mx-auto px-6 py-14 grid gap-8 grid-cols-1 sm:grid-cols-2
+                    lg:grid-cols-[minmax(0,3fr)_minmax(0,0.95fr)_minmax(0,0.95fr)_minmax(0,0.95fr)_minmax(0,1.8fr)]
+                    text-sm text-gray-500">
 
             <div class="sm:col-span-2 lg:col-span-1">
-                <a href="{{ route('home') }}" class="inline-flex items-center gap-3 mb-4 group">
-                    @if (isset($organization) && $organization && $organization->logo)
-                        <img src="{{ asset('storage/' . $organization->logo) }}" alt="{{ $organization->name }}"
-                            class="block h-36 w-auto object-contain">
-                    @else
-                        <span
-                            class="text-2xl font-extrabold uppercase tracking-widest text-gray-900 group-hover:text-emerald-700 transition">
-                            FPUI
-                        </span>
-                    @endif
-                </a>
+                <div class="flex items-center gap-4">
+                    <a href="{{ route('home') }}" class="flex-shrink-0 group"
+                        aria-label="{{ $organization?->name ?? 'FPUI' }}">
+                        @if (isset($organization) && $organization && $organization->logo)
+                            <img src="{{ asset('storage/' . $organization->logo) }}" alt="{{ $organization->name }}"
+                                class="block h-28 sm:h-32 w-auto object-contain flex-shrink-0">
+                        @else
+                            <span
+                                class="text-xl font-extrabold uppercase tracking-widest text-gray-900 group-hover:text-emerald-700 transition">
+                                FPUI
+                            </span>
+                        @endif
+                    </a>
 
-                <div class="text-sm font-bold text-gray-800 leading-tight mb-2">
-                    Forum Perpustakaan<br>Umum Indonesia
+                    <div class="min-w-0 space-y-1">
+                        <div class="text-lg xl:text-xl font-bold tracking-tight text-gray-800 leading-snug">
+                            Forum Perpustakaan<br>Umum Indonesia
+                        </div>
+                        @if ($organizationAddress)
+                            <p class="leading-relaxed break-words">{{ $organizationAddress }}</p>
+                        @endif
+                    </div>
                 </div>
-                @if ($organizationAddress)
-                    <p class="leading-relaxed">{{ $organizationAddress }}</p>
-                @endif
             </div>
 
-            <div>
+            <div class="min-w-0">
                 <div class="text-sm font-semibold text-gray-800 uppercase tracking-wide mb-4">Jelajahi</div>
                 <ul class="space-y-2">
                     <li><a href="{{ route('tentang.profil') }}" class="hover:text-emerald-700 transition">Profil</a></li>
@@ -155,7 +162,7 @@
                 </ul>
             </div>
 
-            <div>
+            <div class="min-w-0">
                 <div class="text-sm font-semibold text-gray-800 uppercase tracking-wide mb-4">Program</div>
                 <ul class="space-y-2">
                     <li><a href="{{ route('program.program-kerja') }}" class="hover:text-emerald-700 transition">Program Kerja</a></li>
@@ -165,7 +172,7 @@
                 </ul>
             </div>
 
-            <div>
+            <div class="min-w-0">
                 <div class="text-sm font-semibold text-gray-800 uppercase tracking-wide mb-4">Publikasi</div>
                 <ul class="space-y-2">
                     <li><a href="{{ route('news.index') }}" class="hover:text-emerald-700 transition">Berita</a></li>
@@ -175,11 +182,11 @@
                 </ul>
             </div>
 
-            <div>
+            <div class="min-w-0">
                 <div class="text-sm font-semibold text-gray-800 uppercase tracking-wide mb-4">Jangkau Kami</div>
                 <ul class="space-y-2">
                     @if (!empty($organization?->email))
-                        <li><a href="mailto:{{ $organization->email }}" class="hover:text-emerald-700 transition">{{ $organization->email }}</a></li>
+                        <li><a href="mailto:{{ $organization->email }}" class="hover:text-emerald-700 transition break-words">{{ $organization->email }}</a></li>
                     @endif
                     @if (!empty($organization?->phone))
                         <li>{{ $organization->phone }}</li>

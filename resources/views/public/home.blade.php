@@ -201,7 +201,7 @@
         </div>
     </section>
 
- <section class="bg-gradient-to-b from-emerald-50 to-white">
+ <section class="bg-gradient-to-b from-emerald-50 to-white overflow-x-clip">
     <div class="max-w-7xl mx-auto px-6 py-20">
         <div class="grid md:grid-cols-2 gap-16 items-center">
 
